@@ -3,55 +3,57 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class GUI extends JPanel implements ActionListener, KeyListener {
-	private Timer t = new Timer(200, this);
-	int x = 400;
-	int y = 300;
-	public GUI() 
-	{
-		
-	}
+	private Timer t = new Timer(100, this);
+	Player player = new Player(275,725,50,50);
+	Image img;
 	//Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) 
 	{
 		switch (e.getKeyCode()) 
 		{
 		case KeyEvent.VK_SPACE: // Press Space Bar
-			System.out.println("test");
 			break;
-		case KeyEvent.VK_W: //Move Up
-			y-=2;
+		/*case KeyEvent.VK_W: //Move Up
+			y-=6;
 			if(y<0){
 				y=595;
 			}
-			System.out.println("test2");
-			break;
+			break;*/
 		case KeyEvent.VK_D: //Move Right
-			x+=2;
-			if(x>800){
-				x=5;
+			player.moveRight();
+			if(player.getX()>600){
+				player.setX(5);
 			}
 			break;
 		case KeyEvent.VK_A: //Move Left
-			x-=2;
-			if(x<0){
-				x=795;
+			player.moveLeft();
+			if(player.getX()<0){
+				player.setX(595);
 			}
 			break;
-		case KeyEvent.VK_S: //Move Down
+		/*case KeyEvent.VK_S: //Move Down
 			y+=2;
 			if(y>600){
-				y=7;
+				y=6;
 			}
-			break;
+			break;*/
 		}	
 	}
-	//Add Images here.  There positions will be dictated by logic
+	private void doDrawing(Graphics g) {
+		//DrawPlayer
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawImage(img, player.getX(), player.getY(), null);
+		//AddOtherDrawings
+	}
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponents(g);
-		//Testcode for adding componenets.  Will constantly repaint
-		 g.drawRect(x, y, 100, 100);
-		 
+		//DrawPlayer
+		img = new ImageIcon("galagaship.png").getImage();
+		doDrawing(g);
+		//AddOtherDrawings
+	
+		
 	}
 	//Starts timer
 	public void start()
@@ -71,7 +73,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		f.setTitle("Galaga");
 		f.add(canvas);
 		f.addKeyListener(canvas);
-		f.setSize(800, 600);
+		f.setSize(600, 800);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
 		f.setVisible(true);
