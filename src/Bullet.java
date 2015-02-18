@@ -20,7 +20,8 @@ public class Bullet extends Objects{
 	{
 		changeNegY(yvelocity);
 	}
-	public void moveDown(){
+	public void moveDown()
+	{
 		changeY(yvelocity);
 	}
 }

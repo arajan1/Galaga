@@ -1,10 +1,13 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
-public class GUI extends JPanel implements ActionListener, KeyListener {
-	private Timer t = new Timer(100, this);
+public class GUI extends JPanel implements ActionListener, KeyListener
+	{
+	private Timer t = new Timer(20, this);
 	Player player = new Player(275,725,50,50);
+	BulletList playerBullets = new BulletList();
 	Image img;
 	//Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) 
@@ -12,6 +15,9 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		switch (e.getKeyCode()) 
 		{
 		case KeyEvent.VK_SPACE: // Press Space Bar
+			Bullet temp = new Bullet(player.getX()+player.getWidth()/2,player.getY(),10,20);
+			temp.setVelocity(25);
+			playerBullets.append(temp);
 			break;
 		/*case KeyEvent.VK_W: //Move Up
 			y-=6;
@@ -39,18 +45,24 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 			break;*/
 		}	
 	}
-	private void doDrawing(Graphics g) {
-		//DrawPlayer
+	private void doDrawingPlayer(Graphics g) //SetPlayerImage
+	{
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(img, player.getX(), player.getY(), null);
-		//AddOtherDrawings
+		g2d.drawImage(img, player.getX(), player.getY(), null);		
 	}
+	
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponents(g);
 		//DrawPlayer
 		img = new ImageIcon("galagaship.png").getImage();
-		doDrawing(g);
+		doDrawingPlayer(g);
+		playerBullets.moveToStart();
+		for(int i = 0; i < playerBullets.length(); i++){
+			g.drawRect(playerBullets.getValue().getX(), playerBullets.getValue().getY(),
+					playerBullets.getValue().getWidth(), playerBullets.getValue().getHeight());
+			playerBullets.next();
+		}
 		//AddOtherDrawings
 	
 		
@@ -64,6 +76,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) 
 	{
 		repaint();
+		playerBullets.traverseListPlayer();
 	}
 
 	public static void main(String[] args)

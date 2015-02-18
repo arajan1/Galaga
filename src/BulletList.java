@@ -1,4 +1,6 @@
-public class BulletList<Bullet> {
+
+
+public class BulletList {
 	private Link<Bullet> head; // Pointer to list header
 	private Link<Bullet> tail; // Pointer to last element
 	protected Link<Bullet> curr; // Access to current element
@@ -74,14 +76,21 @@ public class BulletList<Bullet> {
 	public Bullet getValue() {
 		if (curr.next() == null)
 			return null;
-		return curr.next().element();
+		return (Bullet) curr.next().element();
 	}
 	
 	public void traverseListPlayer(){
 		moveToStart();
 		for(int i = 0; i < length(); i++){
-			getValue().moveUp();
+			if(getValue()!=null){
+				getValue().moveUp();
+			}
+			if(getValue().getY()<0){
+				remove();
+			}
+			next();
 		}
+		//addCollisionCheck
 	}
 }
 
