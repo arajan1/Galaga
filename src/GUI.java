@@ -15,7 +15,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		switch (e.getKeyCode()) 
 		{
 		case KeyEvent.VK_SPACE: // Press Space Bar
-			Bullet temp = new Bullet(player.getX()+player.getWidth()/2,player.getY(),10,23);
+			Bullet temp = new Bullet(player.getX()+player.getWidth()/2-5,player.getY(),10,23);
 			temp.setVelocity(45);
 			playerBullets.append(temp);
 			break;
