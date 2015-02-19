@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class GUI extends JPanel implements ActionListener, KeyListener
 	{
-	private Timer t = new Timer(20, this);
+	private Timer t = new Timer(100, this);
 	Player player = new Player(275,725,50,50);
 	BulletList playerBullets = new BulletList();
 	Image img;
@@ -15,8 +15,8 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		switch (e.getKeyCode()) 
 		{
 		case KeyEvent.VK_SPACE: // Press Space Bar
-			Bullet temp = new Bullet(player.getX()+player.getWidth()/2,player.getY(),10,20);
-			temp.setVelocity(25);
+			Bullet temp = new Bullet(player.getX()+player.getWidth()/2,player.getY(),10,23);
+			temp.setVelocity(45);
 			playerBullets.append(temp);
 			break;
 		/*case KeyEvent.VK_W: //Move Up
@@ -45,24 +45,37 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 			break;*/
 		}	
 	}
+	private void doDrawingBackground(Graphics g) //SetBackgroundImage
+	{
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawImage(img, 0, 0, null);		
+	}
 	private void doDrawingPlayer(Graphics g) //SetPlayerImage
 	{
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(img, player.getX(), player.getY(), null);		
+	}
+	private void doDrawingPlayerBullet(Graphics g) //SetPlayerImage
+	{
+		Graphics2D g2d = (Graphics2D) g;
+		playerBullets.moveToStart();
+		for(int i = 0; i < playerBullets.length(); i++){
+			g.drawImage(img,playerBullets.getValue().getX(), playerBullets.getValue().getY(),
+				null);
+			playerBullets.next();
+		}
 	}
 	
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponents(g);
 		//DrawPlayer
+		img = new ImageIcon("Background.jpg").getImage();
+		doDrawingBackground(g);
 		img = new ImageIcon("galagaship.png").getImage();
 		doDrawingPlayer(g);
-		playerBullets.moveToStart();
-		for(int i = 0; i < playerBullets.length(); i++){
-			g.drawRect(playerBullets.getValue().getX(), playerBullets.getValue().getY(),
-					playerBullets.getValue().getWidth(), playerBullets.getValue().getHeight());
-			playerBullets.next();
-		}
+		img = new ImageIcon("bullet.png").getImage();
+		doDrawingPlayerBullet(g);
 		//AddOtherDrawings
 	
 		

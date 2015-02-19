@@ -1,6 +1,6 @@
 
 public class Player extends Objects{
-	int xvelocity = 10;
+	int xvelocity = 25;
 	Player(int a, int b, int c, int d) 
 	{
 		super(a, b, c, d);
