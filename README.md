@@ -1,6 +1,6 @@
 # Galaga
 README:
 Instructions on How to Install:
- TBD
+ WIP
 Instructions on How to Play:
- TBD
+ WIP
