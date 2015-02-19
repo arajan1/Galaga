@@ -47,20 +47,20 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 	}
 	private void doDrawingBackground(Graphics g) //SetBackgroundImage
 	{
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(img, 0, 0, null);		
+		Graphics2D background = (Graphics2D) g;
+		background.drawImage(img, 0, 0, null);		
 	}
 	private void doDrawingPlayer(Graphics g) //SetPlayerImage
 	{
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(img, player.getX(), player.getY(), null);		
+		Graphics2D galagaship = (Graphics2D) g;
+		galagaship.drawImage(img, player.getX(), player.getY(), null);		
 	}
 	private void doDrawingPlayerBullet(Graphics g) //SetPlayerImage
 	{
-		Graphics2D g2d = (Graphics2D) g;
+		Graphics2D bullet = (Graphics2D) g;
 		playerBullets.moveToStart();
 		for(int i = 0; i < playerBullets.length(); i++){
-			g.drawImage(img,playerBullets.getValue().getX(), playerBullets.getValue().getY(),
+			bullet.drawImage(img,playerBullets.getValue().getX(), playerBullets.getValue().getY(),
 				null);
 			playerBullets.next();
 		}
@@ -95,15 +95,15 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 	public static void main(String[] args)
 	{
 		JFrame f = new JFrame();
-		GUI canvas = new GUI();
+		GUI game = new GUI();
 		f.setTitle("Galaga");
-		f.add(canvas);
-		f.addKeyListener(canvas);
+		f.add(game);
+		f.addKeyListener(game);
 		f.setSize(600, 800);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
 		f.setVisible(true);
-		canvas.start();
+		game.start();
 	}
 
 	@Override
