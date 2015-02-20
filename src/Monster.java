@@ -1,13 +1,16 @@
 
-public class Monster extends Objects
+public interface Monster 
 {
-
-	Monster(int a, int b, int c, int d) {
-		super(a, b, c, d);
-	}
-	public void move()
-	{
-		
-	}
+	//Types of Minions: Blue Minion, Purple Minion
+	//Yellow Minion, Red Minion, Capture Monster, Space Bug
 	
+	public void move(); //Monsters path downward
+
+	public void enter(); //Monsters movement upon entering screen	
+	
+	public void attack(); //monster shooting bullets
+	
+	public void moveBackandFowarth(); //monster shifting side to side
+	
+	public void returnToTop();
 }
