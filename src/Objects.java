@@ -77,7 +77,13 @@ public abstract class Objects
 		yvelocity += a;
 	}
 	public void approach(int a, int b){
-		this.setVelocityX(a);
+		if (this.getX()<=a+10 && this.getY()<=b+10 &&this.getX()>=a-10 && this.getY()>=b-10);
+		else{
+			this.setVelocityX((a-(x+width/2))/4);
+			this.setVelocityY((b-(y+height/2))/4);
+		}
 	}
+	
+	//test
 }
 

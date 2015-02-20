@@ -21,27 +21,15 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 			break;
 		/*case KeyEvent.VK_W: //Move Up
 			y-=6;
-			if(y<0){
-				y=595;
-			}
 			break;*/
 		case KeyEvent.VK_D: //Move Right
-			player.moveRight();
-			if(player.getX()>600){
-				player.setX(5);
-			}
+			player.setVelocityX(10);
 			break;
 		case KeyEvent.VK_A: //Move Left
-			player.moveLeft();
-			if(player.getX()<0){
-				player.setX(595);
-			}
+			player.setVelocityX(-10);
 			break;
 		/*case KeyEvent.VK_S: //Move Down
 			y+=2;
-			if(y>600){
-				y=6;
-			}
 			break;*/
 		}	
 	}
@@ -77,6 +65,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		img = new ImageIcon("bullet.png").getImage();
 		doDrawingPlayerBullet(g);
 		//AddOtherDrawings
+		g.drawRect(90, 190, 20, 20);
 	
 		
 	}
@@ -90,6 +79,8 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 	{
 		repaint();
 		playerBullets.traverseListPlayer();
+		player.approach(100, 200);
+		player.move();
 	}
 
 	public static void main(String[] args)

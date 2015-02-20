@@ -13,4 +13,5 @@ public class Bullet extends Objects
 	{
 		changeY(yvelocity);
 	}
+	
 }
