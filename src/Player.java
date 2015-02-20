@@ -10,11 +10,11 @@ public class Player extends Objects{
 		if(this.getX()<0){
 			this.setX(595);
 		}
-		if(y>600){
+		if(y>800){
 			y=6;
 		}
 		if(y<0){
-			y=595;
+			y=7;
 		}
 		if(this.getX()>600){
 			this.setX(5);
