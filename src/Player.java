@@ -5,18 +5,6 @@ public class Player extends Objects{
 	{
 		super(a, b, c, d);
 	}
-	public int getVelocity()
-	{
-		return xvelocity;
-	}
-	public void setVelocity(int a)
-	{
-		xvelocity = a;
-	}
-	public void changeVelocity(int a)
-	{
-		xvelocity += a;
-	}
 	public void moveLeft()
 	{
 		changeNegX(xvelocity);

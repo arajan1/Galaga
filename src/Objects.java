@@ -4,6 +4,8 @@ public abstract class Objects
 	int y = 0;
 	int width = 0;
 	int height = 0;
+	int xvelocity = 0;
+	int yvelocity = 0;
 	Objects(int a,int b,int c,int d)
 	{
 		x = a;
@@ -50,6 +52,32 @@ public abstract class Objects
 	public void changeNegY(int a)
 	{
 		y -= a;
+	}
+	public int getVelocityX()
+	{
+		return xvelocity;
+	}
+	public void setVelocityX(int a)
+	{
+		xvelocity = a;
+	}
+	public void changeVelocityX(int a)
+	{
+		xvelocity += a;
+	}	public int getVelocityY()
+	{
+		return yvelocity;
+	}
+	public void setVelocityY(int a)
+	{
+		yvelocity = a;
+	}
+	public void changeVelocityY(int a)
+	{
+		yvelocity += a;
+	}
+	public void approach(int a, int b){
+		
 	}
 }
 
