@@ -1,7 +1,9 @@
 
-public class Bullet extends Objects{
+public class Bullet extends Objects
+{
 	int yvelocity;
-	Bullet(int a, int b, int c, int d) {
+	Bullet(int a, int b, int c, int d) 
+	{
 		super(a, b, c, d);
 	}
 	public int getVelocity()
