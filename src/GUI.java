@@ -25,10 +25,8 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		case KeyEvent.VK_A: //Move Left
 			player.setVelocityX(-10);
 			break;
-		case KeyEvent.KEY_RELEASED:
-			player.setVelocityX(0);
-			break;
 		}	
+
 	}
 	private void doDrawingBackground(Graphics g) //SetBackgroundImage
 	{
@@ -99,5 +97,14 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		switch (e.getKeyCode()) 
+		{
+		case KeyEvent.VK_D: //Move Right
+			player.setVelocityX(0);
+			break;
+		case KeyEvent.VK_A: //Move Left
+			player.setVelocityX(0);
+			break;
+		}	
 	}
 }
