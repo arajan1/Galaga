@@ -1,0 +1,9 @@
+package galagaProject;
+
+public class CaptureMonster extends Objects
+{
+	public CaptureMonster(int x, int y, int w, int h)
+	{
+		super (x, y, w, h);
+	}
+}
