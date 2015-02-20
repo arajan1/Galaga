@@ -77,7 +77,7 @@ public abstract class Objects
 		yvelocity += a;
 	}
 	public void approach(int a, int b){
-		
+		this.setVelocityX(a);
 	}
 }
 
