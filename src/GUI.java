@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-//test
 import javax.swing.*;
 
 public class GUI extends JPanel implements ActionListener, KeyListener
@@ -59,9 +58,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		doDrawingPlayer(g);
 		img = new ImageIcon("bullet.png").getImage();
 		doDrawingPlayerBullet(g);
-		//AddOtherDrawings
-	
-		
+		//AddOtherDrawings	
 	}
 	//Starts timer
 	public void start()
@@ -75,7 +72,6 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		playerBullets.traverseListPlayer();
 		player.move();
 	}
-
 	public static void main(String[] args)
 	{
 		JFrame f = new JFrame();
@@ -94,8 +90,6 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 	public void keyTyped(KeyEvent e) {
 
 	}
-
-	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) 
 		{
