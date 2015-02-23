@@ -1,4 +1,3 @@
-
 public class Player extends Objects{
 	Player(int a, int b, int c, int d) 
 	{
@@ -7,7 +6,8 @@ public class Player extends Objects{
 	public void move(){
 		this.changeX(this.getVelocityX());
 		this.changeY(this.getVelocityY());
-		if(this.getX()<0){
+		if(this.getX()<0)
+		{
 			this.setX(595);
 		}
 		if(y>800){
@@ -16,7 +16,8 @@ public class Player extends Objects{
 		if(y<0){
 			y=7;
 		}
-		if(this.getX()>600){
+		if(this.getX()>600)
+		{
 			this.setX(5);
 		}
 	}
