@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class GUI extends JPanel implements ActionListener, KeyListener
 	{
-	private Timer t = new Timer(1000, this);
+	private Timer t = new Timer(100, this);
 	Player player = new Player(275,725,50,50);
 	BulletList playerBullets = new BulletList();
 	BulletList monsterBullets = new BulletList();

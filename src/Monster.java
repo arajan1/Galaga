@@ -6,9 +6,8 @@ public class Monster extends Objects {
 	int monsterindex;
 	boolean approachdone = false;
 	boolean startcircle = false;
-	boolean startcircle2 = false;
 	boolean rightside = false;
-	int angle = 0;
+	double angle = 2*Math.PI;
 
 	Monster(int a, int b, int c, int d, int e, int f, int g) {
 		super(a, b, c, d);
@@ -37,7 +36,7 @@ public class Monster extends Objects {
 	}
 	public void incrementAngle(){
 		if(startcircle==true){
-		angle++;
+		angle-=(2*Math.PI)/30;
 		}
 	}
 
@@ -50,28 +49,25 @@ public class Monster extends Objects {
 		if (approachdone == false) {
 			if (this.basex > 300) {
 				this.setX(600 - width);
-				this.setY(600);
-				approach(500,500);
+				this.setY(400);
+				approach(400,400);
 			} else {
 				this.setX(0);
-				this.setY(600);
-				approach(100,500);
+				this.setY(400);
+				approach(200,400);
 			}
 			approachdone=true;
 		}
-		if (((this.getX()+10>100 && this.getX()-10 <100)||((this.getX()+10>500 &&
-				this.getX()-10 <500)))&&(startcircle==false&&startcircle2==false)) {
+		if (((this.getX()+10>200 && this.getX()-10 <200)||((this.getX()+10>400 &&
+				this.getX()-10 <400)))&&(startcircle==false)) {
 			setVelocityX(0);	
 			setVelocityY(0);
 			startcircle=true;
-			startcircle2=true;
 		}
-		if(startcircle==true&&angle<360){
-			setVelocityX(((int) ( 50*Math.cos(angle))));
-			setVelocityY(((int) ( 50*Math.sin(angle))));
-			angle++;
-			System.out.println(startcircle);
-			startcircle=false;
+		if(startcircle==true&&angle>0){
+			setVelocityX(((int) ( 1000*Math.cos(angle+Math.PI/2)))/40);
+			setVelocityY(((int) ( 1000*Math.sin(angle+Math.PI/2)))/40);
+			System.out.println(angle);
 		}
 	}
 
