@@ -3,6 +3,7 @@ public class Player extends Objects{
 	{
 		super(a, b, c, d);
 	}
+	@Override
 	public void move(){
 		this.changeX(this.getVelocityX());
 		this.changeY(this.getVelocityY());

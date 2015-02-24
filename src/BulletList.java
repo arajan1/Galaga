@@ -96,7 +96,7 @@ public class BulletList
 		moveToStart();
 		for(int i = 0; i < length(); i++){
 			if(getValue()!=null){
-				getValue().moveUp();
+				getValue().move();
 			}
 			if(getValue().getY()<0){
 				remove();

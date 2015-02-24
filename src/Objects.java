@@ -83,6 +83,10 @@ public abstract class Objects
 			this.setVelocityY((b-(y+height/2))/10);
 		}
 	}
+	public void move(){
+		this.changeX(this.getVelocityX());
+		this.changeY(this.getVelocityY());
+	}
 	
 	//test
 }

@@ -5,13 +5,4 @@ public class Bullet extends Objects
 	{
 		super(a, b, c, d);
 	}
-	public void moveUp()
-	{
-		changeNegY(yvelocity);
-	}
-	public void moveDown()
-	{
-		changeY(yvelocity);
-	}
-	
 }

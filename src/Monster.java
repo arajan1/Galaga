@@ -43,7 +43,7 @@ public class Monster extends Objects
 		this.approach(playerx, playery);
 		Bullet temp = new Bullet(this.getX()+this.getWidth()/2-5,this.getY(),10,23);
 		temp.approach(playerx+50, playery);
-		temp.setVelocityY(temp.getVelocityY()*-1);
+		temp.setVelocityY(temp.getVelocityY()+15);
 		list.append(temp);
 	} //monster shooting bullets
 	
