@@ -1,7 +1,6 @@
 //WORK IN PROGRESS
 
-package galagaProject;
-
+import java.awt.Graphics;
 import java.awt.Image;
 
 public class Sprite 
@@ -27,7 +26,7 @@ public class Sprite
 	{
 		return fileName;
 	}
-	public void display(Graphics)
+	public void display(Graphics g)
 	{
 		
 	}

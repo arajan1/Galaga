@@ -1,6 +1,4 @@
 //WORK IN PROGRESS - DONT TOUCH
-
-package galagaProject;
 import java.util.LinkedList;
 import java.awt.*;
 
@@ -28,7 +26,7 @@ public class GamePanel extends JPanel
 	
 	protected void paintComponent(Graphics g, int x, int y, int rotation)//warning: pseudo-code ahead!!
 	{
-		super.paintComponent(g)
+		super.paintComponent(g);
 	}
 	
 }
