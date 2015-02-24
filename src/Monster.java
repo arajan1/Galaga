@@ -1,9 +1,10 @@
-
+import java.util.*;
 public class Monster extends Objects
 {
 	int basex;
 	int basey;
 	int monsterindex;
+	boolean rightside = false;
 	Monster(int a, int b, int c, int d, int e, int f, int g) {
 		super(a, b, c, d);
 			basex = f;
@@ -27,26 +28,37 @@ public class Monster extends Objects
 	public void setBaseY(int a){
 		basey = a;
 	}
-
+	public void move(){
+		this.changeX(this.getVelocityX());
+		this.changeY(this.getVelocityY());
+	}
 	public void enter()
 	{ //Monsters movement upon entering screen	
 		
 	}
 	
-	public void attack()
+	public void attack(int playerx, int playery, BulletList list)
 	{
-		
+		Random rand = new Random();
+		this.approach(playerx, playery);
+		Bullet temp = new Bullet(this.getX()+this.getWidth()/2-5,this.getY(),10,23);
+		temp.approach(playerx+50, playery);
+		temp.setVelocityY(temp.getVelocityY()*-1);
+		list.append(temp);
 	} //monster shooting bullets
 	
 	public void moveBackandFowarth()
 	{
-		if(this.getX()+15<this.getBaseX()&&this.getX()-15>this.getBaseX()&&
-				this.getY()==this.getBaseY()){
-			if(this.getX()>this.getBaseX()){
-				this.changeX(-3);
+		if(rightside==false){
+			this.changeX(5);
+			if(this.getX()>=this.getBaseX()+15){
+				rightside=true;
 			}
-			if(this.getX()<this.getBaseX()){
-				this.changeX(+3);
+		}
+		if(rightside==true){
+			this.changeX(-5);
+			if(this.getX()<=this.getBaseX()-15){
+				rightside=false;
 			}
 		}
 	} //monster shifting side to side
@@ -55,6 +67,6 @@ public class Monster extends Objects
 	{
 		this.setY(0);
 		this.setX(this.getBaseX());
-		this.approach(this.getBaseX(),this.getBaseY());
+		this.setVelocityY(5);
 	}
 }

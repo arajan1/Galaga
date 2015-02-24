@@ -8,17 +8,11 @@ public class Player extends Objects{
 		this.changeY(this.getVelocityY());
 		if(this.getX()<0)
 		{
-			this.setX(595);
+			this.setX(0);
 		}
-		if(y>800){
-			y=6;
-		}
-		if(y<0){
-			y=7;
-		}
-		if(this.getX()>600)
+		if(this.getX()+width>600)
 		{
-			this.setX(5);
+			this.setX(600-width);
 		}
 	}
 

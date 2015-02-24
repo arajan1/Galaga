@@ -91,7 +91,7 @@ public class BulletList
 		return (Bullet) curr.next().element();
 	}
 	
-	public void traverseListPlayer()
+	public void traverseList()
 	{
 		moveToStart();
 		for(int i = 0; i < length(); i++){
