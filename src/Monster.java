@@ -35,6 +35,11 @@ public class Monster extends Objects {
 	public void setBaseY(int a) {
 		basey = a;
 	}
+	public void incrementAngle(){
+		if(startcircle==true){
+		angle++;
+		}
+	}
 
 	public void move() {
 		this.changeX(this.getVelocityX());
@@ -61,12 +66,10 @@ public class Monster extends Objects {
 			startcircle=true;
 			startcircle2=true;
 		}
-		if(startcircle==true){
-			while (angle < 360) {
-				x+=((int) ( 50*Math.cos(angle)));
-				y+=((int) ( 50*Math.sin(angle))); 
-				angle++;
-			}
+		if(startcircle==true&&angle<360){
+			setVelocityX(((int) ( 50*Math.cos(angle))));
+			setVelocityY(((int) ( 50*Math.sin(angle))));
+			angle++;
 			System.out.println(startcircle);
 			startcircle=false;
 		}

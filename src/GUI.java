@@ -83,6 +83,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		player.move();
 		test.move();
 		test.enter();
+		test.incrementAngle();
 	/* if(test.getY()>800){
 			test.setVelocityX(0);
 			test.setVelocityY(0);
