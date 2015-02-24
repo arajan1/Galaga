@@ -4,12 +4,12 @@ import javax.swing.*;
 
 public class GUI extends JPanel implements ActionListener, KeyListener
 	{
-	private Timer t = new Timer(100, this);
+	private Timer t = new Timer(1000, this);
 	Player player = new Player(275,725,50,50);
 	BulletList playerBullets = new BulletList();
 	BulletList monsterBullets = new BulletList();
 	Image img;
-	boolean testattack = false;
+	boolean runonce = false;
 	Monster test = new Monster(100, 100, 50, 50, 1, 100, 100);
 	//Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) 
@@ -72,25 +72,26 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 	//Continually Runs whatever is in this command
 	public void actionPerformed(ActionEvent e) 
 	{
-		if(testattack==false)
+		/*if(runonce==false)
 		{
 			test.attack(player.getX(),player.getY(),playerBullets);
-			testattack = true;
-		}
+			runonce = true;
+		} */
 		repaint();
 		playerBullets.traverseList();
 		monsterBullets.traverseList();
 		player.move();
 		test.move();
-		if(test.getY()>800){
+		test.enter();
+	/* if(test.getY()>800){
 			test.setVelocityX(0);
 			test.setVelocityY(0);
 			test.returnToTop();
 		}
 		if(test.getBaseX()==test.getX()&&test.getBaseY()==test.getY())
 		{
-			testattack=false;
-		}
+			runonce=false;
+		}*/
 	}
 	public static void main(String[] args)
 	{
