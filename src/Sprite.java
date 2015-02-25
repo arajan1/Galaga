@@ -1,34 +1,30 @@
-//WORK IN PROGRESS
-
+import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 
 public class Sprite 
 {
-	int angle;//so sprite can be rotated according to velocity
+	float angle;//so sprite can be rotated according to velocity
 	int x;
 	int y;
-	Image fileName;
+	Image img;
+	public Sprite()
+	{
+		angle = 0f;
+	}
 	
-	public int getAngle()
+	public Image getImage()
 	{
-		return 0;
+		return img;
 	}
-	public int getX()
+	public void display(Graphics g, GamePanel gp)
 	{
-		return x;
-	}
-	public int getY()
-	{
-		return y;
-	}
-	public Image getFileName()
-	{
-		return fileName;
-	}
-	public void display(Graphics g)
-	{
-		
+		AffineTransform at = new AffineTransform();
+		at.setToRotation(Math.toRadians(angle));
+		at.translate(x, y);
+		((Graphics2D)g).drawImage(img, at, gp);
 	}
 	
 }
+
