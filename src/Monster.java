@@ -133,14 +133,14 @@ public class Monster extends Objects {
 					this.getY(), 10, 23);
 			if (this.getX() > playerx) {
 				temp.approach(playerx - 50, playery);
-				temp.setVelocityY(temp.getVelocityY() + 35);
-				temp.setVelocityX(temp.getVelocityX() - 20);
+				temp.setVelocityY(temp.getVelocityY() + 25);
+				temp.setVelocityX(temp.getVelocityX() - 5);
 				list.append(temp);
 			}
 			if (this.getX() < playerx) {
 				temp.approach(playerx + 50, playery);
-				temp.setVelocityY(temp.getVelocityY() + 35);
-				temp.setVelocityX(temp.getVelocityX() + 20);
+				temp.setVelocityY(temp.getVelocityY() + 5);
+				temp.setVelocityX(temp.getVelocityX() + 5);
 				list.append(temp);
 			}
 		}
@@ -161,9 +161,16 @@ public class Monster extends Objects {
 		}
 	} // monster shifting side to side
 
-	public void returnToTop() {
-		this.setY(0);
+	public boolean returnToTop() {
 		this.setX(this.getBaseX());
-		this.setVelocityY(5);
+		this.setVelocityY(15);
+		if((this.getY() + 15 > this.getBaseY() && this.getY() - 15< this
+				.getBaseY())){
+			this.setX(basex);
+			this.setY(basey);
+			return true;
+		}
+		return false;
+		
 	}
 }

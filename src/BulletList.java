@@ -6,17 +6,14 @@ public class BulletList
 	private Link<Bullet> tail; // Pointer to last element
 	protected Link<Bullet> curr; // Access to current element
 	int cnt; // Size of list
+	int cap;
 
 	/** Constructors */
-	BulletList(int size) 
-	{
-		this();
-	} // Constructor -- Ignore size
-	//why bother with this constructer^?
-	BulletList() 
+	BulletList(int a) 
 	{
 		curr = tail = head = new Link<Bullet>(null); // Create header
 		cnt = 0;
+		cap = a;
 	}
 
 	/** Remove all elements */
@@ -30,8 +27,10 @@ public class BulletList
 	/** Append "it" to list */
 	public void append(Bullet it) 
 	{
-		tail = tail.setNext(new Link<Bullet>(it, null));
-		cnt++;
+		if(length()<cap){
+			tail = tail.setNext(new Link<Bullet>(it, null));
+			cnt++;
+		}
 	}
 
 	/** Remove and return current element */
@@ -99,6 +98,9 @@ public class BulletList
 				getValue().move();
 			}
 			if(getValue().getY()<0){
+				remove();
+			}
+			else if(getValue().getY()>800){
 				remove();
 			}
 			next();
