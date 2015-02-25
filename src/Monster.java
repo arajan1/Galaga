@@ -7,7 +7,8 @@ public class Monster extends Objects {
 	boolean approachdone = false;
 	boolean startcircle = false;
 	boolean rightside = false;
-	double angle = Math.PI;
+	double angle = 0;
+	
 
 	Monster(int a, int b, int c, int d, int e, int f, int g) {
 		super(a, b, c, d);
@@ -33,9 +34,10 @@ public class Monster extends Objects {
 	public void setBaseY(int a) {
 		basey = a;
 	}
-	public void incrementAngle(){
-		if(startcircle==true){
-		angle+=(2*Math.PI)/30;
+
+	public void incrementAngle() {
+		if (startcircle == true) {
+			angle += (2 * Math.PI) / 30;
 		}
 	}
 
@@ -45,30 +47,59 @@ public class Monster extends Objects {
 	}
 
 	public void enter() { // Monsters movement upon entering screen
-		if (approachdone == false) {
-			if (this.basex > 300) {
-				this.setX(600 - width);
-				this.setY(600);
-				approach(400,400);
-			} else {
-				this.setX(0);
-				this.setY(600);
-				approach(200,400);
+		if (monsterindex == 1) {
+			if (approachdone == false) {
+				if (this.basex > 300) {
+					this.setX(600 - width);
+					this.setY(600);
+					approach(400, 400);
+				} else {
+					this.setX(0);
+					this.setY(600);
+					approach(200, 400);
+				}
+				approachdone = true;
 			}
-			approachdone=true;
-		}
-		if (((this.getX()+10>200 && this.getX()-10 <200)||((this.getX()+10>400 &&
-				this.getX()-10 <400)))&&(startcircle==false)) {
-			setVelocityX(0);	
-			setVelocityY(0);
-			startcircle=true;
-		}
-		if(startcircle==true&&angle<Math.PI*3){
-			setVelocityX(((int) ( -25*Math.cos(angle))));
-			setVelocityY(((int) ( 25*Math.sin(angle))));
-		}
-		if(angle>Math.PI*3){
-			approach(basex,basey);
+			if (((this.getX() + 10 > 200 && this.getX() - 10 < 200) || ((this
+					.getX() + 10 > 400 && this.getX() - 10 < 400)))
+					&& (startcircle == false)) {
+				setVelocityX(0);
+				setVelocityY(0);
+				startcircle = true;
+			}
+			if (startcircle == true && angle < Math.PI * 3) {
+				setVelocityX(((int) (-25 * Math.cos(angle+Math.PI))));
+				setVelocityY(((int) (25 * Math.sin(angle+Math.PI))));
+			}
+			if (angle > Math.PI * 3) {
+				approach(basex, basey);
+			}
+		} else {
+			if (approachdone == false) {
+				if (this.basex > 300) {
+					this.setX(450);
+					this.setY(0);
+					approach(450, 200);
+				} else {
+					this.setX(150);
+					this.setY(0);
+					approach(150, 200);
+				}
+				approachdone = true;
+			}
+			if (((this.getY() + 10 > 200 && this.getY() - 10 < 200)
+					&& (startcircle == false))) {
+				setVelocityX(0);
+				setVelocityY(0);
+				startcircle = true;
+			}
+			if (startcircle == true && angle < Math.PI*2 - .75) {
+				setVelocityX(((int) (-25 * Math.cos(angle))));
+				setVelocityY(((int) (25 * Math.sin(angle))));
+			}
+			if (angle > Math.PI * 2 - .75) {
+				approach(basex, basey);
+			}
 		}
 	}
 

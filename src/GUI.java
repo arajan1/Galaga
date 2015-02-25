@@ -10,7 +10,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 	BulletList monsterBullets = new BulletList();
 	Image img;
 	boolean runonce = false;
-	Monster test = new Monster(100, 100, 50, 50, 1, 100, 100);
+	Monster test = new Monster(100, 100, 50, 50, 2, 100, 100);
 	//Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) 
 	{
