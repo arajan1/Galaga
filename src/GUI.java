@@ -40,7 +40,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		Graphics2D galagaship = (Graphics2D) g;
 		galagaship.drawImage(img, player.getX(), player.getY(), null);		
 	}
-	private void doDrawingPlayerBullet(Graphics g) //SetPlayerImage
+	private void doDrawingBullet(Graphics g) //SetPlayerImage
 	{
 		Graphics2D bullet = (Graphics2D) g;
 		playerBullets.moveToStart();
@@ -49,6 +49,13 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 				null);
 			playerBullets.next();
 		}
+		monsterBullets.moveToStart();
+		for(int i = 0; i < monsterBullets.length(); i++){
+			bullet.drawImage(img,monsterBullets.getValue().getX(), monsterBullets.getValue().getY(),
+				null);
+			monsterBullets.next();
+		}
+		
 	}
 	
 	public void paintComponent(Graphics g) 
@@ -60,7 +67,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		img = new ImageIcon("galagaship.png").getImage();
 		doDrawingPlayer(g);
 		img = new ImageIcon("bullet.png").getImage();
-		doDrawingPlayerBullet(g);
+		doDrawingBullet(g);
 		//AddOtherDrawings	
 		g.drawRect(test.getX(), test.getY(), test.getWidth(), test.getHeight());
 	}
@@ -72,11 +79,6 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 	//Continually Runs whatever is in this command
 	public void actionPerformed(ActionEvent e) 
 	{
-		/*if(runonce==false)
-		{
-			test.attack(player.getX(),player.getY(),playerBullets);
-			runonce = true;
-		} */
 		repaint();
 		playerBullets.traverseList();
 		monsterBullets.traverseList();
@@ -91,15 +93,30 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 			}
 			playerBullets.next();
 		}
-	/* if(test.getY()>800){
+		monsterBullets.moveToStart();
+		for(int i = 0; i < monsterBullets.length(); i++){
+			if(monsterBullets.getValue().collidesWith(player)){
+				System.out.println("scrubshot");
+			}
+			monsterBullets.next();
+		}
+		if(player.collidesWith(test)){
+			System.out.println("kablamo");
+		}
+	    if(test.getY()>800){
 			test.setVelocityX(0);
 			test.setVelocityY(0);
 			test.returnToTop();
 		}
+	    if(runonce==false)
+		{
+			test.attack(player.getX(),player.getY(),monsterBullets);
+			runonce = true;
+		} 
 		if(test.getBaseX()==test.getX()&&test.getBaseY()==test.getY())
 		{
 			runonce=false;
-		}*/
+		}
 	}
 	public static void main(String[] args)
 	{
