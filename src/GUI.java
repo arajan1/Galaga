@@ -11,8 +11,9 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 	BulletList monsterBullets = new BulletList(100);
 	Image img;
 	boolean runonce = false;
+	boolean hit = false;
 	boolean donereturning = true;
-	static boolean done = false;
+	boolean done = false;
 	Monster test = new Monster(100, 100, 50, 50, 1, 100, 100);
 
 	// Program KeyStrokes Here
@@ -74,6 +75,9 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		doDrawingBullet(g);
 		// AddOtherDrawings
 		g.drawRect(test.getX(), test.getY(), test.getWidth(), test.getHeight());
+		if(done==true){
+			g.drawString("Game Over", 300,400);
+		}
 	}
 
 	// Starts timer
@@ -101,13 +105,13 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		for (int i = 0; i < monsterBullets.length(); i++) {
 
 			if (monsterBullets.getValue().collidesWith(player)) {
-				player.died();
+				hit = true;
 			}
 			monsterBullets.next();
 		}
 		if (player.collidesWith(test)) {
-			player.died();
-		}
+			hit = true;
+ 		}
 		if (test.getY() > 800) {
 			test.setY(0);
 			donereturning = false;
@@ -117,6 +121,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 				donereturning = true;
 			}
 		}
+		//test.captureMonster(player);
 		if (runonce == false) {
 			test.attack(player.getX(), player.getY(), monsterBullets);
 			runonce = true;
@@ -124,11 +129,17 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		if (test.getBaseX() == test.getX() && test.getBaseY() == test.getY()) {
 			runonce = false;
 		}
+		if(test.isCapturing()==true){
+			hit = true;
+		}
+		if(hit == true){
+			player.died();
+			hit = false;
+		}
 		if(player.getLives()<=0){
 			t.stop();
 			done = true;
 		}
-		System.out.println(player.getLives());
 	}
 
 	public static void main(String[] args) {
@@ -141,12 +152,6 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
 		f.setVisible(true);
-		JLabel jlabel = new JLabel("GAME OVER");
-		jlabel.setFont(new Font("Verdana",1,20));
-		game.add(jlabel);
-		game.setBorder(new LineBorder(Color.BLACK)); // make it easy to see
-		f.add(jlabel);
-		jlabel.setVisible(false);
 		game.start();
 	}
 

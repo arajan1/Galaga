@@ -1,15 +1,17 @@
-import java.util.*;
-
 public class Monster extends Objects {
 	int basex;
 	int basey;
 	int monsterindex;
+	double angle = 0;
 	boolean approachdone = false;
+	boolean captureapproach = false;
 	boolean startcircle = false;
 	boolean rightside = false;
-	double angle = 0;
 	boolean startending = false;
 	boolean endingover = false;
+	boolean hascapture = false;
+	boolean madeplace = false;
+	boolean iscapturing = false;
 
 	Monster(int a, int b, int c, int d, int e, int f, int g) {
 		super(a, b, c, d);
@@ -42,6 +44,10 @@ public class Monster extends Objects {
 		}
 	}
 
+	public boolean isCapturing(){
+		return iscapturing;
+	}
+	
 	public void move() {
 		this.changeX(this.getVelocityX());
 		this.changeY(this.getVelocityY());
@@ -147,16 +153,18 @@ public class Monster extends Objects {
 	} // monster shooting bullets
 
 	public void moveBackandFowarth() {
-		if (rightside == false) {
-			this.changeX(5);
-			if (this.getX() >= this.getBaseX() + 15) {
-				rightside = true;
+		if (endingover == true) {
+			if (rightside == false) {
+				this.changeX(5);
+				if (this.getX() >= this.getBaseX() + 15) {
+					rightside = true;
+				}
 			}
-		}
-		if (rightside == true) {
-			this.changeX(-5);
-			if (this.getX() <= this.getBaseX() - 15) {
-				rightside = false;
+			if (rightside == true) {
+				this.changeX(-5);
+				if (this.getX() <= this.getBaseX() - 15) {
+					rightside = false;
+				}
 			}
 		}
 	} // monster shifting side to side
@@ -164,13 +172,40 @@ public class Monster extends Objects {
 	public boolean returnToTop() {
 		this.setX(this.getBaseX());
 		this.setVelocityY(15);
-		if((this.getY() + 15 > this.getBaseY() && this.getY() - 15< this
-				.getBaseY())){
+		if ((this.getY() + 15 > this.getBaseY() && this.getY() - 15 < this
+				.getBaseY())) {
 			this.setX(basex);
 			this.setY(basey);
 			return true;
 		}
 		return false;
-		
+	}
+	
+	public void captureMonster(Player player) {
+		if (endingover == true) {
+			if (captureapproach == false) {
+				xvelocity=0;
+				yvelocity=0;
+				approach(300 - width / 2, 400);
+				captureapproach = true;
+			}
+			if ((this.getX() + 15 > 300 - width / 2 && this.getX() - 15 < 300 - width / 2)
+					&& ((this.getY() + 15 > 400 && this.getY() - 15 < 400))
+					&& madeplace == false && captureapproach == true) {
+				this.setX(300 - width / 2);
+				this.setY(400);
+				xvelocity=0;
+				yvelocity=0;
+				madeplace = true;
+			}
+			if(iscapturing == false){
+				if(player.getX()>=200 && player.getX()<=400){
+					hascapture=true;
+				}
+				iscapturing = true;
+			}
+			
+			
+		}
 	}
 }

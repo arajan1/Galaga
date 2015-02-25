@@ -22,6 +22,8 @@ public class Player extends Objects{
 		return lives;
 	}
 	public void died(){
+		this.setX(0);
+		this.setY(725);
 		lives--;
 	}
 
