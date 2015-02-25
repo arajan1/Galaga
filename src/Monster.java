@@ -7,14 +7,13 @@ public class Monster extends Objects {
 	boolean approachdone = false;
 	boolean startcircle = false;
 	boolean rightside = false;
-	double angle = 2*Math.PI;
+	double angle = Math.PI;
 
 	Monster(int a, int b, int c, int d, int e, int f, int g) {
 		super(a, b, c, d);
 		basex = f;
 		basey = g;
 		monsterindex = e;
-		// TODO Auto-generated constructor stub
 	}
 
 	// Types of Minions: Blue Minion, Purple Minion
@@ -36,7 +35,7 @@ public class Monster extends Objects {
 	}
 	public void incrementAngle(){
 		if(startcircle==true){
-		angle-=(2*Math.PI)/30;
+		angle+=(2*Math.PI)/30;
 		}
 	}
 
@@ -49,11 +48,11 @@ public class Monster extends Objects {
 		if (approachdone == false) {
 			if (this.basex > 300) {
 				this.setX(600 - width);
-				this.setY(400);
+				this.setY(600);
 				approach(400,400);
 			} else {
 				this.setX(0);
-				this.setY(400);
+				this.setY(600);
 				approach(200,400);
 			}
 			approachdone=true;
@@ -64,10 +63,12 @@ public class Monster extends Objects {
 			setVelocityY(0);
 			startcircle=true;
 		}
-		if(startcircle==true&&angle>0){
-			setVelocityX(((int) ( 1000*Math.cos(angle+Math.PI/2)))/40);
-			setVelocityY(((int) ( 1000*Math.sin(angle+Math.PI/2)))/40);
-			System.out.println(angle);
+		if(startcircle==true&&angle<Math.PI*3){
+			setVelocityX(((int) ( -25*Math.cos(angle))));
+			setVelocityY(((int) ( 25*Math.sin(angle))));
+		}
+		if(angle>Math.PI*3){
+			approach(basex,basey);
 		}
 	}
 
