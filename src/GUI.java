@@ -84,6 +84,13 @@ public class GUI extends JPanel implements ActionListener, KeyListener
 		test.move();
 		test.enter();
 		test.incrementAngle();
+		playerBullets.moveToStart();
+		for(int i = 0; i < playerBullets.length(); i++){
+			if(playerBullets.getValue().collidesWith(test)){
+				System.out.println("goodshot");
+			}
+			playerBullets.next();
+		}
 	/* if(test.getY()>800){
 			test.setVelocityX(0);
 			test.setVelocityY(0);

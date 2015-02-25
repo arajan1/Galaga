@@ -87,7 +87,12 @@ public abstract class Objects
 		this.changeX(this.getVelocityX());
 		this.changeY(this.getVelocityY());
 	}
-	
-	//test
+	public boolean collidesWith(Objects obj){
+		if(getX()+getWidth() >= obj.getX()&&getX() <= obj.getX()+obj.getWidth() &&
+				getY()+getHeight() >= obj.getY() && getY() <= obj.getY()+obj.getHeight()){
+				  return true;
+		}
+		return false;
+	}	
 }
 
