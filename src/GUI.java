@@ -1,16 +1,19 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class GUI extends JPanel implements ActionListener, KeyListener {
 	private Timer t = new Timer(20, this);
-	Player player = new Player(275, 725, 50, 50);
+	Player player = new Player(275, 725, 50, 50, 3);
 	BulletList playerBullets = new BulletList(2);
 	BulletList monsterBullets = new BulletList(100);
 	Image img;
 	boolean runonce = false;
 	boolean donereturning = true;
-	Monster test = new Monster(100, 100, 50, 50, 2, 100, 100);
+	static boolean done = false;
+	Monster test = new Monster(100, 100, 50, 50, 1, 100, 100);
 
 	// Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) {
@@ -58,7 +61,6 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 					monsterBullets.getValue().getY(), null);
 			monsterBullets.next();
 		}
-
 	}
 
 	public void paintComponent(Graphics g) {
@@ -91,23 +93,21 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		playerBullets.moveToStart();
 		for (int i = 0; i < playerBullets.length(); i++) {
 			if (playerBullets.getValue().collidesWith(test)) {
-				System.out.println("goodshot");
+				
 			}
 			playerBullets.next();
 		}
 		monsterBullets.moveToStart();
 		for (int i = 0; i < monsterBullets.length(); i++) {
-			System.out.println(monsterBullets.getValue().getX());
-			System.out.println(monsterBullets.getValue().getY());
+
 			if (monsterBullets.getValue().collidesWith(player)) {
-				System.out.println("scrubshot");
+				player.died();
 			}
 			monsterBullets.next();
 		}
 		if (player.collidesWith(test)) {
-			System.out.println("kablamo");
+			player.died();
 		}
-		System.out.println(donereturning);
 		if (test.getY() > 800) {
 			test.setY(0);
 			donereturning = false;
@@ -124,6 +124,11 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		if (test.getBaseX() == test.getX() && test.getBaseY() == test.getY()) {
 			runonce = false;
 		}
+		if(player.getLives()<=0){
+			t.stop();
+			done = true;
+		}
+		System.out.println(player.getLives());
 	}
 
 	public static void main(String[] args) {
@@ -136,6 +141,12 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
 		f.setVisible(true);
+		JLabel jlabel = new JLabel("GAME OVER");
+		jlabel.setFont(new Font("Verdana",1,20));
+		game.add(jlabel);
+		game.setBorder(new LineBorder(Color.BLACK)); // make it easy to see
+		f.add(jlabel);
+		jlabel.setVisible(false);
 		game.start();
 	}
 

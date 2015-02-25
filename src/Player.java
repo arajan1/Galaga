@@ -1,7 +1,9 @@
 public class Player extends Objects{
-	Player(int a, int b, int c, int d) 
+	int lives;
+	Player(int a, int b, int c, int d, int e) 
 	{
 		super(a, b, c, d);
+		lives = e;
 	}
 	@Override
 	public void move(){
@@ -14,7 +16,13 @@ public class Player extends Objects{
 		if(this.getX()+width>600)
 		{
 			this.setX(600-width);
-		}
+		}	
+	}
+	public int getLives(){
+		return lives;
+	}
+	public void died(){
+		lives--;
 	}
 
 }
