@@ -1,19 +1,22 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 public class GUI extends JPanel implements ActionListener, KeyListener {
 	private Timer t = new Timer(20, this);
 	Player player = new Player(275, 725, 50, 50, 3);
 	BulletList playerBullets = new BulletList(2);
+	Random rand = new Random();
 	BulletList monsterBullets = new BulletList(100);
 	Image img;
 	boolean runonce = false;
 	boolean hit = false;
 	boolean donereturning = true;
 	boolean done = false;
+	boolean doublefighter = false;
+
 	Monster test = new Monster(100, 100, 50, 50, 1, 100, 100);
 
 	// Program KeyStrokes Here
@@ -75,8 +78,8 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		doDrawingBullet(g);
 		// AddOtherDrawings
 		g.drawRect(test.getX(), test.getY(), test.getWidth(), test.getHeight());
-		if(done==true){
-			g.drawString("Game Over", 300,400);
+		if (done == true) {
+			g.drawString("Game Over", 300, 400);
 		}
 	}
 
@@ -97,7 +100,9 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		playerBullets.moveToStart();
 		for (int i = 0; i < playerBullets.length(); i++) {
 			if (playerBullets.getValue().collidesWith(test)) {
-				
+				if (test.isCapturing() == true) {
+					doublefighter = true;
+				}
 			}
 			playerBullets.next();
 		}
@@ -111,32 +116,40 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		}
 		if (player.collidesWith(test)) {
 			hit = true;
- 		}
+		}
 		if (test.getY() > 800) {
 			test.setY(0);
 			donereturning = false;
 		}
 		if (donereturning == false) {
 			if (test.returnToTop()) {
+				test.setVelocityX(0);
+				test.setVelocityY(0);
 				donereturning = true;
+				runonce = false;
 			}
 		}
-		//test.captureMonster(player);
-		if (runonce == false) {
-			test.attack(player.getX(), player.getY(), monsterBullets);
-			runonce = true;
+		// test.captureMonster(player);
+		// if(test.isCapturing()==true){
+		// hit = true;
+		// }
+		System.out.println(runonce);
+		if (rand.nextInt(200) < 10) {
+			if (runonce == false) {
+				test.attack(player.getX(), player.getY(), monsterBullets);
+				runonce = true;
+			}
 		}
-		if (test.getBaseX() == test.getX() && test.getBaseY() == test.getY()) {
-			runonce = false;
+		else if(runonce == false){
+			test.moveBackandFowarth();
 		}
-		if(test.isCapturing()==true){
-			hit = true;
-		}
-		if(hit == true){
-			player.died();
+		if (hit == true) {
+			//player.died();
 			hit = false;
+			test.setY(0);
+			donereturning = false;
 		}
-		if(player.getLives()<=0){
+		if (player.getLives() <= 0) {
 			t.stop();
 			done = true;
 		}

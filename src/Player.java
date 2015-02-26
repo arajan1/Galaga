@@ -5,7 +5,6 @@ public class Player extends Objects{
 		super(a, b, c, d);
 		lives = e;
 	}
-	@Override
 	public void move(){
 		this.changeX(this.getVelocityX());
 		this.changeY(this.getVelocityY());
@@ -22,7 +21,7 @@ public class Player extends Objects{
 		return lives;
 	}
 	public void died(){
-		this.setX(0);
+		this.setX(275);
 		this.setY(725);
 		lives--;
 	}
