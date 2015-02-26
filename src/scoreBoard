@@ -1,0 +1,18 @@
+package galagaProject;
+
+class ScoreBoard
+{
+	int[] scoreBoard;
+	public ScoreBoard()
+	{
+		scoreBoard = new int[3];
+	}
+	public void kill(int monsterType)
+	{
+		scoreBoard[monsterType]++;
+	}
+	public int[] getscoreBoard()
+	{
+		return scoreBoard;
+	}
+}
