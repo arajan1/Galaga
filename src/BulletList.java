@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 
 
 public class BulletList 
@@ -90,12 +92,35 @@ public class BulletList
 		return (Bullet) curr.next().element();
 	}
 	
-	public void traverseList()
+	public void traverseListMonster(Player obj)
 	{
 		moveToStart();
 		for(int i = 0; i < length(); i++){
 			if(getValue()!=null){
 				getValue().move();
+			}
+			else if(getValue().getY()>800){
+				remove();
+			}
+			if(getValue().collidesWith(obj)){
+				obj.died();
+			}
+			next();
+		}
+	}
+	public void traverseListPlayer(LinkedList<Monster> monsters){
+		moveToStart();
+		for(int i = 0; i < length(); i++){
+			if(getValue()!=null){
+				getValue().move();
+			}
+			for(int k = 0; k <  monsters.size(); k++)
+			{
+				if(monsters.get(k).collidesWith(getValue())){
+					if(monsters.get(k).died()){
+						monsters.remove(k);
+					}
+				}
 			}
 			if(getValue().getY()<0){
 				remove();
@@ -105,7 +130,6 @@ public class BulletList
 			}
 			next();
 		}
-		//addCollisionCheck
 	}
 }
 
