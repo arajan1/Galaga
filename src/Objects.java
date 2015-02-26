@@ -1,4 +1,4 @@
-public abstract class Objects 
+public abstract class Objects extends Sprite
 {
 	int x = 0;
 	int y = 0;
