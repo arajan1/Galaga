@@ -100,9 +100,9 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 	boolean donereturning = true;
 	boolean done = false;
 	boolean doublefighter = false;
-	Monster test = new Monster(0, 0, 0, 0, 0, 100, 100);
-	Monster test2 = new Monster(0, 0, 0, 0, 1, 500, 100);		
-	Monster test3 = new Monster(100, 100, 0, 0, 2, 100, 100);
+	//Monster test = new Monster(0, 0, 0, 0, 0, 100, 100);
+	//Monster test2 = new Monster(0, 0, 0, 0, 1, 500, 100);		
+	Monster test3 = new Monster(0, 0, 0, 0, 2, 250, 100);
 	// Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -171,8 +171,12 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		for(int i = 0; i < monsters.size(); i++){
 			g.drawRect(monsters.get(i).getX(), monsters.get(i).getY(), 
 					monsters.get(i).getWidth(), monsters.get(i).getHeight());
+			if(monsters.get(i).drawCapture()){
+				g.drawRect(200,400,200,400);	
+			}
 		}
 		g.drawString("Lives Left:"+player.getLives(), 500, 700);
+		
 		if (done == true) {
 			if(player.getLives()<=0){
 				g.drawString("Game Over", 300, 400);
@@ -184,8 +188,8 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 	}
 	// Starts timer
 	public void start() {
-		monsters.add(test);
-		monsters.add(test2);
+		//monsters.add(test);
+		//monsters.add(test2);
 		monsters.add(test3);
 		t.start();
 
