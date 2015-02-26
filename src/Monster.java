@@ -23,18 +23,28 @@ public class Monster extends Objects {
 		super(a, b, c, d);
 		basex = f;
 		basey = g;
+
 		monsterindex = e;
-		if(e==1){
+		if (e == 0) {
 			lives = 1;
+			width = 35;
+			height = 26;
 		}
-		if(e==2){
+		if (e == 1) {
 			lives = 2;
+			width = 35;
+			height = 27;
+		}
+		if (e == 2) {
+			lives = 3;
+			width = 35;
+			height = 38;
 		}
 	}
 
-	//RED MINION = MONSTER INDEX 1
-	//YELLOW MINION = MONSTER INDEX 2
-	//CAPTURE MINION = MONSTER INDEX 3\
+	// RED MINION = MONSTER INDEX 0
+	// YELLOW MINION = MONSTER INDEX 1
+	// CAPTURE MINION = MONSTER INDEX 2\
 	public int getBaseX() {
 		return basex;
 	}
@@ -57,17 +67,18 @@ public class Monster extends Objects {
 		}
 	}
 
-	public boolean isCapturing(){
+	public boolean isCapturing() {
 		return iscapturing;
 	}
-	
+
 	public void move() {
 		this.changeX(this.getVelocityX());
 		this.changeY(this.getVelocityY());
 	}
 
 	public void enter() { // Monsters movement upon entering screen
-		if (monsterindex == 1 && endingover == false) {
+		if (monsterindex <= 1 && endingover == false) {
+			System.out.println("err");
 			if (approachdone == false) {
 				if (this.basex > 300) {
 					this.setX(600);
@@ -87,13 +98,13 @@ public class Monster extends Objects {
 				setVelocityY(0);
 				startcircle = true;
 			}
-			if (startcircle == true && angle < Math.PI * 3 && basex<300) {
-				setVelocityX(((int) (-20 * Math.cos(angle + Math.PI))));
-				setVelocityY(((int) (20 * Math.sin(angle + Math.PI))));
+			if (startcircle == true && angle < Math.PI * 3 && basex < 300) {
+				setVelocityX(((int) (-20 * Math.cos(angle + Math.PI + .25))));
+				setVelocityY(((int) (20 * Math.sin(angle + Math.PI + .25))));
 			}
-			if (startcircle == true && angle < Math.PI * 3 && basex>300) {
-				setVelocityX(((int) (20 * Math.cos(angle + Math.PI))));
-				setVelocityY(((int) (20 * Math.sin(angle + Math.PI))));
+			if (startcircle == true && angle < Math.PI * 3 && basex > 300) {
+				setVelocityX(((int) (20 * Math.cos(angle + Math.PI + .25))));
+				setVelocityY(((int) (20 * Math.sin(angle + Math.PI + .25))));
 			}
 			if (angle > Math.PI * 3 && startending == false) {
 				approach(basex, basey);
@@ -109,40 +120,47 @@ public class Monster extends Objects {
 				this.setY(this.getBaseY());
 				endingover = true;
 			}
-		} else if (monsterindex == 2 && endingover == false) {
+		}
+		if (monsterindex == 2 && endingover == false) {
 			if (approachdone == false) {
 				if (this.basex > 300) {
-					this.setX(450);
+					this.setX(100);
 					this.setY(0);
-					approach(450, 200);
+					approach(200, 150);
 				} else {
-					this.setX(150);
+					this.setX(500);
 					this.setY(0);
-					approach(150, 200);
+					approach(400, 150);
 				}
 				approachdone = true;
 			}
-			if (((this.getY() + 10 > 200 && this.getY() - 10 < 200) && (startcircle == false))) {
+			if (((this.getY() + 10 > 150 && this.getY() - 10 < 150))
+					&& (startcircle == false)) {
 				setVelocityX(0);
 				setVelocityY(0);
 				startcircle = true;
 			}
-			if (startcircle == true && angle < Math.PI * 2 - .75) {
-				setVelocityX(((int) (-15 * Math.cos(angle))));
-				setVelocityY(((int) (25 * Math.sin(angle))));
+			if (startcircle == true && angle < Math.PI * 3 && basex < 300) {
+				setVelocityX(((int) (-15 * Math.cos(angle + Math.PI + .25))));
+				setVelocityY(((int) (-25 * Math.sin(angle + Math.PI + .25))));
 			}
-			if (angle > Math.PI * 2 - .75 && startending == false) {
+			if (startcircle == true && angle < Math.PI * 3 && basex > 300) {
+				setVelocityX(((int) (15 * Math.cos(angle + Math.PI + .25))));
+				setVelocityY(((int) (-25 * Math.sin(angle + Math.PI + .25))));
+			}
+			if (angle > Math.PI * 3 && startending == false) {
 				approach(basex, basey);
 				startending = true;
 			}
-			if ((this.getX() + 30 > this.getBaseX() && this.getX() - 30 < this
+			if ((this.getX() + 40 > this.getBaseX() && this.getX() - 40 < this
 					.getBaseX())
-					&& ((this.getY() + 30 > this.getBaseY() && this.getY() - 30 < this
+					&& ((this.getY() + 40 > this.getBaseY() && this.getY() - 40 < this
 							.getBaseY())) && startending == true) {
 				setVelocityX(0);
 				setVelocityY(0);
 				this.setX(this.getBaseX());
 				this.setY(this.getBaseY());
+				endingover = true;
 			}
 		}
 	}
@@ -198,69 +216,53 @@ public class Monster extends Objects {
 		return false;
 	}
 
-	public int getLives(){
+	public int getLives() {
 		return lives;
 	}
-	
-	public boolean died()
-	{
+
+	public boolean died() {
 		lives--;
-		if(lives<=0){
+		if (lives <= 0) {
 			return true;
 		}
 		return false;
 	}
-/*	public void captureMonster(Player player) {
-		if (endingover == true) {
-			if (captureapproach == false) {
-				xvelocity=0;
-				yvelocity=0;
-				approach(300 - width / 2, 400);
-				captureapproach = true;
-			}
-			if ((this.getX() + 15 > 300 - width / 2 && this.getX() - 15 < 300 - width / 2)
-					&& ((this.getY() + 15 > 400 && this.getY() - 15 < 400))
-					&& madeplace == false && captureapproach == true) {
-				this.setX(300 - width / 2);
-				this.setY(400);
-				xvelocity=0;
-				yvelocity=0;
-				madeplace = true;
-			}
-			if(iscapturing == false){
-				if(player.getX()>=200 && player.getX()<=400){
-					hascapture=true;
-				}
-				iscapturing = true;
-			}
-			
-			
-		}
-	}*/
-	
-	public void function(Player player, BulletList monster){
+
+	/*
+	 * public void captureMonster(Player player) { if (endingover == true) { if
+	 * (captureapproach == false) { xvelocity=0; yvelocity=0; approach(300 -
+	 * width / 2, 400); captureapproach = true; } if ((this.getX() + 15 > 300 -
+	 * width / 2 && this.getX() - 15 < 300 - width / 2) && ((this.getY() + 15 >
+	 * 400 && this.getY() - 15 < 400)) && madeplace == false && captureapproach
+	 * == true) { this.setX(300 - width / 2); this.setY(400); xvelocity=0;
+	 * yvelocity=0; madeplace = true; } if(iscapturing == false){
+	 * if(player.getX()>=200 && player.getX()<=400){ hascapture=true; }
+	 * iscapturing = true; }
+	 * 
+	 * 
+	 * } }
+	 */
+
+	public void function(Player player, BulletList monster) {
 		move();
 		enter();
-		if(attack==false){
+		if (attack == false) {
 			moveBackandFowarth();
 		}
-		if(rand.nextInt(200)<10&&endingover==true){
-			attack(player.getX(),player.getY(), monster);
+		if (rand.nextInt(200) < 10 && endingover == true) {
+			attack(player.getX(), player.getY(), monster);
 		}
-		if(y>800){
-			y=0;
+		if (y > 800) {
+			y = 0;
 			needtoreturn = true;
 		}
-		if(needtoreturn == true)
-		{
-			if(returnToTop()){
-				xvelocity=0;
-				yvelocity=0;
+		if (needtoreturn == true) {
+			if (returnToTop()) {
+				xvelocity = 0;
+				yvelocity = 0;
 				needtoreturn = false;
 			}
 		}
-		System.out.println(attack);
 		incrementAngle();
 	}
 }
-
