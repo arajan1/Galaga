@@ -8,6 +8,7 @@ public class Monster extends Objects {
 	int attackvariable;
 	Random rand = new Random();
 	double angle = 0;
+	int pausefactor = 0;
 	boolean approachdone = false;
 	boolean captureapproach = false;
 	boolean startcircle = false;
@@ -32,19 +33,19 @@ public class Monster extends Objects {
 			lives = 1;
 			width = 35;
 			height = 26;
-			attackvariable = 1100;
+			attackvariable = 2000;
 		}
 		if (e == 1) {
 			lives = 2;
 			width = 35;
 			height = 27;
-			attackvariable = 900;
+			attackvariable = 1500;
 		}
 		if (e == 2) {
 			lives = 3;
 			width = 35;
 			height = 38;
-			attackvariable = 700;
+			attackvariable = 1000;
 		}
 	}
 
@@ -115,9 +116,9 @@ public class Monster extends Objects {
 				approach(basex, basey);
 				startending = true;
 			}
-			if ((this.getX() + 40 > this.getBaseX() && this.getX() - 40 < this
+			if ((this.getX() + 50 > this.getBaseX() && this.getX() - 50 < this
 					.getBaseX())
-					&& ((this.getY() + 40 > this.getBaseY() && this.getY() - 40 < this
+					&& ((this.getY() + 50 > this.getBaseY() && this.getY() - 50 < this
 							.getBaseY())) && startending == true) {
 				setVelocityX(0);
 				setVelocityY(0);
@@ -139,7 +140,7 @@ public class Monster extends Objects {
 				}
 				approachdone = true;
 			}
-			if (((this.getY() + 10 > 150 && this.getY() - 10 < 150))
+			if (((this.getY() + 30 > 150 && this.getY() - 30 < 150))
 					&& (startcircle == false)) {
 				setVelocityX(0);
 				setVelocityY(0);
@@ -194,14 +195,14 @@ public class Monster extends Objects {
 	public void moveBackandFowarth() {
 		if (endingover == true) {
 			if (rightside == false) {
-				this.changeX(5);
-				if (this.getX() >= this.getBaseX() + 15) {
+				this.changeX(2);
+				if (this.getX() >= this.getBaseX() + 10) {
 					rightside = true;
 				}
 			}
 			if (rightside == true) {
-				this.changeX(-5);
-				if (this.getX() <= this.getBaseX() - 15) {
+				this.changeX(-2);
+				if (this.getX() <= this.getBaseX() - 10) {
 					rightside = false;
 				}
 			}
@@ -237,8 +238,12 @@ public class Monster extends Objects {
 		return drawcapture;
 	}
 	
+	public boolean hasCapture(){
+		return hascapture;
+	}
+	
 	public void captureMonster(Player player) {
-		if (endingover == true) {
+		if (endingover == true && hascapture == false) {
 			if (captureapproach == false) {
 				xvelocity = 0;
 				yvelocity = 0;
@@ -253,37 +258,40 @@ public class Monster extends Objects {
 				xvelocity = 0;
 				yvelocity = 0;
 				madeplace = true;
-				System.out.println("check");
 			}
 			if (hascapture == false && madeplace == true) {
 				drawcapture=true;
+				pausefactor++;
 				if (player.getX() >= 200 && player.getX() <= 400) {
 					hascapture = true;
+					player.died();
+					y=801;
+					pausefactor=201;
 				}
-				else{
-					yvelocity=70;
+				if(pausefactor>200){
+					yvelocity=50;
 					madeplace=false;
 					drawcapture=false;
-					hascapture = false;
+					pausefactor=0;
 				}
 			}
-
 		}
 	}
 
 	public void function(Player player, BulletList monster) {
 		move();
 		enter();
+		/*
 		if (attack == false && startcapture==false) {
 			moveBackandFowarth();
 		}
 		if (rand.nextInt(attackvariable) < 10 && endingover == true) {
-			//if(monsterindex==2&&rand.nextInt(1000)<10){
+			if(monsterindex==2&&rand.nextInt(1000)<10){
 				startcapture=true;
-			//}
-			//else{
-				//attack(player.getX(), player.getY(), monster);
-			//}
+			}
+			else{
+				attack(player.getX(), player.getY(), monster);
+			}
 		}
 		if(startcapture==true){
 			captureMonster(player);
@@ -292,6 +300,7 @@ public class Monster extends Objects {
 			y = 0;
 			needtoreturn = true;
 			startcapture=false;
+			captureapproach=false;
 		}
 		if (needtoreturn == true) {
 			if (returnToTop()) {
@@ -299,7 +308,7 @@ public class Monster extends Objects {
 				yvelocity = 0;
 				needtoreturn = false;
 			}
-		}
+		}*/
 		incrementAngle();
 	}
 }

@@ -92,7 +92,7 @@ public class BulletList
 		return (Bullet) curr.next().element();
 	}
 	
-	public void traverseListMonster(Player obj)
+	public void traverseListMonster(LinkedList<Player> players)
 	{
 		moveToStart();
 		for(int i = 0; i < length(); i++){
@@ -102,13 +102,15 @@ public class BulletList
 			else if(getValue().getY()>800){
 				remove();
 			}
-			if(getValue().collidesWith(obj)){
-				obj.died();
+			for(int k = 0; k < players.size(); k++){
+				if(getValue().collidesWith(players.get(k))){
+					players.get(k).died();
+				}
 			}
 			next();
 		}
 	}
-	public void traverseListPlayer(LinkedList<Monster> monsters){
+	public boolean traverseListPlayer(LinkedList<Monster> monsters){
 		moveToStart();
 		for(int i = 0; i < length(); i++){
 			if(getValue()!=null){
@@ -118,6 +120,10 @@ public class BulletList
 			{
 				if(monsters.get(k).collidesWith(getValue())){
 					if(monsters.get(k).died()){
+						if(monsters.get(k).hasCapture()){
+							monsters.remove(k);
+							return true;
+						}
 						monsters.remove(k);
 					}
 				}
@@ -130,6 +136,7 @@ public class BulletList
 			}
 			next();
 		}
+		return false;
 	}
 }
 
