@@ -10,7 +10,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	Player player = new Player(new ImageIcon("galagaship.png").getImage(), 275,
 			725, 50, 50, 3, 0);
 	BulletList playerBullets = new BulletList(2);
-	int numoflives=0;
+	int numoflives = 0;
 	Random rand = new Random();
 	BulletList monsterBullets = new BulletList(100);
 	LinkedList<Monster> monsters = new LinkedList<Monster>();
@@ -25,12 +25,15 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	boolean donereturning = true;
 	boolean done = false;
 	boolean doublefighter = false;
-	/*Monster test = new Monster(new ImageIcon("redMonster copy.png").getImage(),
-			0, 0, 0, 0, 0, 100, 100, 0);
-	Monster test1 = new Monster(new ImageIcon("redMonster copy.png").getImage(),
-			0, 0, 0, 0, 1, 282, 100, 0);
-	Monster test2 = new Monster(new ImageIcon("redMonster copy.png").getImage(),
-			0, 0, 0, 0, 2, 500, 100, 0);*/
+
+	/*
+	 * Monster test = new Monster(new
+	 * ImageIcon("redMonster copy.png").getImage(), 0, 0, 0, 0, 0, 100, 100, 0);
+	 * Monster test1 = new Monster(new
+	 * ImageIcon("redMonster copy.png").getImage(), 0, 0, 0, 0, 1, 282, 100, 0);
+	 */
+	 Monster test2 = new Monster(new ImageIcon("Commander.png").getImage(), 0, 0, 0, 0, 2, 500, 100, 0);
+	 
 
 	// Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) {
@@ -62,22 +65,21 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	// Starts timer
 	public void start() {
 		t.start();
-
 	}
 
 	// Continually Runs whatever is in this command
 	public void actionPerformed(ActionEvent e) {
 		livedisplay.clear();
-		numoflives=0;
-		for(int i = 0; i < players.size(); i++){
+		numoflives = 0;
+		for (int i = 0; i < players.size(); i++) {
 			numoflives = players.get(i).getLives();
 		}
-		for(int i = 0; i < numoflives; i++){
-			Sprite temp = new Sprite(new ImageIcon("galagashiplive.png").getImage(), 0,600-30*i, 0);
+		for (int i = 0; i < numoflives; i++) {
+			Sprite temp = new Sprite(
+					new ImageIcon("galagashiplive.png").getImage(), 0,
+					600 - 30 * i, 0);
 			livedisplay.add(temp);
 		}
-			
-		System.out.println(level);
 		if (playerBullets.traverseListPlayer(monsters)) {
 			Player temp = new Player(
 					new ImageIcon("galagaship.png").getImage(), player.getX()
@@ -101,13 +103,28 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			t.stop();
 			done = true;
 		}
-		 if(monsters.size()<=0){
-		   level++;
-		   monsters = stage.makeMonsterList(level);
-		 }
+		if (monsters.size() <= 0) {
+			level++;
+			//monsters.add(test2);
+			monsters = stage.makeMonsterList(level);
+		}
 		LinkedList<Sprite> sprites = new LinkedList<Sprite>();
 		sprites.addAll(players);
-		sprites.addAll(monsters);
+		for (int i = 0; i < monsters.size(); i++) {
+			if (monsters.get(i).drawCapture() == true) {
+				Sprite temp = new Sprite(
+						new ImageIcon("capture.png").getImage(), 200, 450, 0);
+				sprites.add(temp);
+			}
+			if (monsters.get(i).hasCapture() == true) {
+				Sprite temp2 = new Sprite(new ImageIcon(
+						"CommanderHasCapture.png").getImage(), monsters.get(i)
+						.getX(), monsters.get(i).getY(), monsters.get(i).angle);
+				sprites.addFirst(temp2);
+			} else {
+				sprites.add(monsters.get(i));
+			}
+		}
 		playerBullets.moveToStart();
 		for (int i = 0; i < playerBullets.length(); i++) {
 			sprites.add(playerBullets.getValue());

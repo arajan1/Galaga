@@ -47,7 +47,7 @@ public class Monster extends Objects {
 			lives = 3;
 			width = 35;
 			height = 38;
-			attackvariable = 3000;
+			attackvariable = 1000;
 		}
 	}
 
@@ -279,7 +279,7 @@ public class Monster extends Objects {
 			if (hascapture == false && madeplace == true) {
 				drawcapture=true;
 				pausefactor++;
-				if (player.getX() >= 200 && player.getX() <= 400) {
+				if (player.getX() >= 200 && player.getX() <= 400&&pausefactor>100) {
 					hascapture = true;
 					player.died();
 					y=801;
@@ -302,7 +302,10 @@ public class Monster extends Objects {
 			moveBackandFowarth();
 		}
 		if (rand.nextInt(attackvariable) < 10 && endingover == true) {
-			if(monsterindex==2&&rand.nextInt(1000)<10){
+			System.out.println("attack");
+			if(monsterindex==2&&rand.nextInt(10)<1){
+				System.out.println("go");
+				angle=0;
 				startcapture=true;
 			}
 			else{
