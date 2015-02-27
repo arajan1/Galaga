@@ -1,18 +1,33 @@
-package galagaProject;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.ImageObserver;
 
-class ScoreBoard
+import javax.swing.ImageIcon;
+
+public class ScoreBoard 
 {
-	int[] scoreBoard;
+	int[] scores;
+	
 	public ScoreBoard()
 	{
-		scoreBoard = new int[3];
+		scores = new int[3];
 	}
-	public void kill(int monsterType)
+	
+	public void addKill(int type)
 	{
-		scoreBoard[monsterType]++;
+		if (type > 2 || type < 0)
+		{
+			return;
+		}
+		scores[type]++;
 	}
-	public int[] getscoreBoard()
+	public void display(Graphics g, GamePanel gp)
 	{
-		return scoreBoard;
+		g.drawImage(new ImageIcon("beeEnemy%20copy.png").getImage(), 100, 200, gp);
+		g.drawImage(new ImageIcon("beeEnemy%20copy.png").getImage(), 100, 400, gp);
+		g.drawImage(new ImageIcon("beeEnemy%20copy.png").getImage(), 100, 600, gp);
+		g.drawString(scores[0] + "", 200, 200);
+		g.drawString(scores[1] + "", 200, 400);
+		g.drawString(scores[2] + "", 200, 400);
 	}
 }
