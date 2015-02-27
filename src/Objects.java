@@ -1,15 +1,14 @@
+import java.awt.Image;
+
 public abstract class Objects extends Sprite
 {
-	int x = 0;
-	int y = 0;
-	int width = 0;
-	int height = 0;
+	int width;
+	int height;
 	int xvelocity = 0;
 	int yvelocity = 0;
-	Objects(int a,int b,int c,int d)
+	Objects(Image img, int a,int b,int c, int d, double angle)
 	{
-		x = a;
-		y = b;
+		super(img,a,b,angle);
 		width = c;
 		height = d;
 	}

@@ -87,9 +87,9 @@ import java.util.Random;
 
 import javax.swing.*;
 
-public class GUI extends JPanel implements ActionListener, KeyListener {
+public class GUI extends JFrame implements ActionListener, KeyListener {
 	private Timer t = new Timer(20, this);
-	Player player = new Player(275, 725, 50, 50, 3);
+	Player player = new Player(new ImageIcon("galagaship.png").getImage(), 275, 725, 50, 50, 3, 0);
 	BulletList playerBullets = new BulletList(2);
 	Random rand = new Random();
 	BulletList monsterBullets = new BulletList(100);
@@ -98,6 +98,7 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 	Image img;
 	Stage stage = new Stage();
 	int level = 0;
+	GamePanel gp;
 	boolean runonce = false;
 	boolean hit = false;
 	boolean donereturning = true;
@@ -111,8 +112,8 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE: // Press Space Bar
 			for(int i = 0; i < players.size(); i++){
-				Bullet temp = new Bullet(players.get(i).getX() + players.get(i).getWidth() / 2 - 5,
-						players.get(i).getY(), 10, 23);
+				Bullet temp = new Bullet(new ImageIcon("bullet.png").getImage(), players.get(i).getX() + players.get(i).getWidth() / 2 - 5,
+						players.get(i).getY(), 10, 23, 0);
 				temp.setVelocityY(-45);
 				playerBullets.append(temp);
 			}
@@ -130,74 +131,6 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		}
 
 	}
-	private void doDrawingPlayer(Graphics g) // SetPlayerImage
-
-	{
-
-		Graphics2D galagaship = (Graphics2D) g;
-
-		for(int i = 0; i < players.size(); i++){
-			galagaship.drawImage(img, players.get(i).getX(), players.get(i).getY(), null);
-		}
-
-	}
-	private void doDrawingBullet(Graphics g) // SetBulletImage
-
-	{
-
-		Graphics2D bullet = (Graphics2D) g;
-
-		playerBullets.moveToStart();
-
-		for (int i = 0; i < playerBullets.length(); i++) {
-
-			bullet.drawImage(img, playerBullets.getValue().getX(),
-
-			playerBullets.getValue().getY(), null);
-
-			playerBullets.next();
-
-		}
-
-		monsterBullets.moveToStart();
-
-		for (int i = 0; i < monsterBullets.length(); i++) {
-
-			bullet.drawImage(img, monsterBullets.getValue().getX(),
-
-			monsterBullets.getValue().getY(), null);
-
-			monsterBullets.next();
-
-		}
-
-	}
-	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
-		
-		img = new ImageIcon("galagaship.png").getImage();
-		doDrawingPlayer(g);
-		img = new ImageIcon("bullet.png").getImage();
-		doDrawingBullet(g);
-		// AddOtherDrawings
-		for(int i = 0; i < monsters.size(); i++){
-			g.drawRect(monsters.get(i).getX(), monsters.get(i).getY(), 
-					monsters.get(i).getWidth(), monsters.get(i).getHeight());
-			if(monsters.get(i).drawCapture()){
-				g.drawRect(200,400,200,400);	
-			}
-		}
-		g.drawString("Lives Left:"+player.getLives(), 500, 700);
-		g.drawString("Level:" + level, 500, 650);
-		
-		if (done == true) {
-			for(int i = 0; i < players.size(); i++){
-				if(players.get(i).getLives()<=0){
-					g.drawString("Game Over", 300, 400);
-				}
-			}
-		}
-	}
 	// Starts timer
 	public void start() {
 		//monsters.add(test);
@@ -209,9 +142,8 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 	}
 	// Continually Runs whatever is in this command
 	public void actionPerformed(ActionEvent e) {
-		repaint();
 		if(playerBullets.traverseListPlayer(monsters)){
-			Player temp = new Player(player.getX()+player.getWidth(),player.getY(),50,50,1);
+			Player temp = new Player(new ImageIcon("galagaship.png").getImage(),player.getX()+player.getWidth(),player.getY(),50,50,1,0);
 			players.add(temp);
 		}
 		monsterBullets.traverseListMonster(players);
@@ -220,11 +152,6 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 		}
 		for(int i = 0; i < monsters.size(); i++){
 			monsters.get(i).function(player, monsterBullets);
-			if(i==3 || i == 2){
-				System.out.println("Actual" +i+":" + monsters.get(i).getX() +" " + monsters.get(i).getY());
-				System.out.println("Base:" + monsters.get(i).getBaseX() +" " + monsters.get(i).getBaseY());
-
-			}
 			if(monsters.get(i).collidesWith(player)){
 				player.died();
 			}
@@ -237,20 +164,38 @@ public class GUI extends JPanel implements ActionListener, KeyListener {
 			level++;
 			monsters = stage.makeMonsterList(level);
 		}
-		
+		LinkedList<Sprite> sprites = new LinkedList<Sprite>();
+		sprites.addAll(players);
+		sprites.addAll(monsters);
+		playerBullets.moveToStart();
+		for(int i = 0; i < playerBullets.length(); i++){
+			sprites.add(playerBullets.getValue());
+			playerBullets.next();
+		}
+		monsterBullets.moveToStart();
+		for(int i = 0; i < monsterBullets.length(); i++){
+			sprites.add(monsterBullets.getValue());
+			monsterBullets.next();
+		}
+		gp.setSprites(sprites);
+		gp.repaint();
+		repaint();
 	}
 	public static void main(String[] args) {
-
-		JFrame f = new JFrame();
 		GUI game = new GUI();
-		f.setTitle("Galaga");
-		f.add(game);
-		f.addKeyListener(game);
-		f.setSize(600, 800);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setResizable(false);
-		f.setVisible(true);
-		game.start();
+	}
+	GUI(){
+		gp= new GamePanel();
+		add(gp);
+		setTitle("Galaga");
+		addKeyListener(this);
+		setSize(600, 800);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setVisible(true);
+		//setBackground(Color.BLACK);
+		t.start();
+		
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {

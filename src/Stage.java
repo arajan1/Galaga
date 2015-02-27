@@ -2,6 +2,8 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import javax.swing.ImageIcon;
+
 public class Stage {
 
 	private static int randPick(int a) {// picks random number 0 through a-1
@@ -80,7 +82,7 @@ public class Stage {
 			bx = 40 + bxspace + (bxspace + 35) * rowplace;// determine x coord
 			pick = randPick(choice);
 			if (pick == 0) {// For red monster
-				temp = new Monster(0, 0, 35, 28, 0, bx, by);// creates a monster of type red with base coords "(bx,by)"
+				temp = new Monster(new ImageIcon("redMonster copy.png").getImage(), 0, 0, 35, 28, 0, bx, by, 0);// creates a monster of type red with base coords "(bx,by)"
 				mash.add(temp);// appends to returned list
 				red--;// next few lines make sure only the initially determined
 						// amount of red monsters are generated
@@ -90,7 +92,7 @@ public class Stage {
 				}
 			}
 			if (pick == 1) {// same as above, but for yellow
-				temp = new Monster(0, 0, 35, 28, 1, bx, by);
+				temp = new Monster(new ImageIcon("beeEnemy copy.png").getImage(),0, 0, 35, 28, 1, bx, by, 0);
 				mash.add(temp);
 				ylw--;
 				if (ylw == 0) {
@@ -99,7 +101,7 @@ public class Stage {
 				}
 			}
 			if (pick == 2) {// same as above but for cap
-				temp = new Monster(0, 0, 35, 38, 2, bx, by);
+				temp = new Monster(new ImageIcon("Commander.png").getImage(),0, 0, 35, 38, 2, bx, by, 0);
 				mash.add(temp);
 				cap--;
 				if (cap == 0) {

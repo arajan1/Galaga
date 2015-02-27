@@ -1,4 +1,3 @@
-package galagaProjectTemp;
 import java.util.LinkedList;
 import java.awt.*;
 

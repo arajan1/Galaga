@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.util.LinkedList;
 
 
@@ -181,8 +182,8 @@ class Link<Bullet>
 
 class Bullet extends Objects
 {
-	Bullet(int a, int b, int c, int d) 
+	Bullet(Image a, int b, int c, int d, int e, double angle) 
 	{
-		super(a, b, c, d);
+		super(a, b, c, d, e, angle);
 	}
 }

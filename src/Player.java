@@ -1,8 +1,10 @@
+import java.awt.Image;
+
 public class Player extends Objects{
 	int lives;
-	Player(int a, int b, int c, int d, int e) 
+	Player(Image img, int a, int b, int c, int d, int e, double angle) 
 	{
-		super(a, b, c, d);
+		super(img, a, b, c, d, angle);
 		lives = e;
 	}
 	public void move(){

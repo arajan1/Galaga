@@ -1,22 +1,19 @@
-package galagaProjectTemp;
 
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
-import javax.swing.ImageIcon;
-
 public class Sprite 
 {
-	float angle;//so sprite can be rotated according to velocity
+	double angle;//so sprite can be rotated according to velocity
 	int x;
 	int y;
 	Image img;
-	public Sprite(Image im, int xc, int yc)
+	public Sprite(Image im, int xc, int yc, double angle)
 	{
 		img = im;
-		angle = 0f;
+		angle = 0;
 		x = xc;
 		y = yc;
 	}
@@ -28,7 +25,6 @@ public class Sprite
 	public void display(Graphics g, GamePanel gp)
 	{
 		AffineTransform at = new AffineTransform();
-		
 		at.setToRotation(angle);
 		((Graphics2D)g).translate(x, y);
 		((Graphics2D)g).drawImage(img, at, gp);

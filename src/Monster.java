@@ -1,4 +1,7 @@
+import java.awt.Image;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
 
 public class Monster extends Objects {
 	int basex;
@@ -7,7 +10,6 @@ public class Monster extends Objects {
 	int lives;
 	int attackvariable;
 	Random rand = new Random();
-	double angle = 0;
 	int pausefactor = 0;
 	boolean approachdone = false;
 	boolean captureapproach = false;
@@ -23,8 +25,8 @@ public class Monster extends Objects {
 	boolean startcapture = false;
 	boolean drawcapture = false;
 
-	Monster(int a, int b, int c, int d, int e, int f, int g) {
-		super(a, b, c, d);
+	Monster(Image img, int a, int b, int c, int d, int e, int f, int g, double angle) {
+		super(img, a, b, c, d, angle);
 		basex = f;
 		basey = g;
 
@@ -69,7 +71,7 @@ public class Monster extends Objects {
 	}
 
 	public void incrementAngle() {
-		if (startcircle == true) {
+		if (startcircle == true && startending==false) {
 			angle += (2 * Math.PI) / 30;
 		}
 	}
@@ -104,6 +106,7 @@ public class Monster extends Objects {
 				setVelocityY(0);
 				startcircle = true;
 			}
+			System.out.println(angle);
 			if (startcircle == true && angle < Math.PI * 3 && basex < 300) {
 				setVelocityX(((int) (-20 * Math.cos(angle + Math.PI + .25))));
 				setVelocityY(((int) (20 * Math.sin(angle + Math.PI + .25))));
@@ -125,6 +128,7 @@ public class Monster extends Objects {
 				this.setX(this.getBaseX());
 				this.setY(this.getBaseY());
 				endingover = true;
+				angle=0;
 			}
 		}
 		if (monsterindex == 2 && endingover == false) {
@@ -167,6 +171,7 @@ public class Monster extends Objects {
 				this.setX(this.getBaseX());
 				this.setY(this.getBaseY());
 				endingover = true;
+				angle=0;
 			}
 		}
 	}
@@ -174,18 +179,30 @@ public class Monster extends Objects {
 	public void attack(int playerx, int playery, BulletList list) {
 		if (endingover == true && attack == false) {
 			this.approach(playerx, playery);
-			Bullet temp = new Bullet(this.getX() + this.getWidth() / 2 - 5,
-					this.getY(), 10, 23);
+			Bullet temp = new Bullet(new ImageIcon("bullet.png").getImage(),this.getX() + this.getWidth() / 2 - 5,
+					this.getY(), 10, 23, 0);
 			if (this.getX() > playerx) {
 				temp.approach(playerx - 50, playery);
 				temp.setVelocityY(temp.getVelocityY() + 25);
 				temp.setVelocityX(temp.getVelocityX() - 5);
+				if(xvelocity!=0){
+					angle = -Math.tan(yvelocity/xvelocity);
+				}
+				if(temp.xvelocity!=0){
+					angle = -Math.tan(temp.yvelocity/temp.xvelocity);
+				}
 				list.append(temp);
 			}
 			if (this.getX() < playerx) {
 				temp.approach(playerx + 50, playery);
 				temp.setVelocityY(temp.getVelocityY() + 5);
 				temp.setVelocityX(temp.getVelocityX() + 5);
+				if(xvelocity!=0){
+					angle = -Math.tan(yvelocity/xvelocity);
+				}
+				if(temp.xvelocity!=0){
+					angle = -Math.tan(temp.yvelocity/temp.xvelocity);
+				}
 				list.append(temp);
 			}
 		}
@@ -210,6 +227,7 @@ public class Monster extends Objects {
 	} // monster shifting side to side
 
 	public boolean returnToTop() {
+		angle=0;
 		this.setX(this.getBaseX());
 		this.setVelocityY(15);
 		if ((this.getY() + 15 > this.getBaseY() && this.getY() - 15 < this
@@ -281,7 +299,6 @@ public class Monster extends Objects {
 	public void function(Player player, BulletList monster) {
 		move();
 		enter();
-		/*
 		if (attack == false && startcapture==false) {
 			moveBackandFowarth();
 		}
@@ -308,7 +325,7 @@ public class Monster extends Objects {
 				yvelocity = 0;
 				needtoreturn = false;
 			}
-		}*/
+		}
 		incrementAngle();
 	}
 }
