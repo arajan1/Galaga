@@ -1,3 +1,4 @@
+package galagaProjectTemp;
 import java.util.LinkedList;
 import java.awt.*;
 
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel
 	{
 		for (Sprite s: sprites)
 		{
+			//System.out.println("test");
 			s.display(g, this);
 		}
 	}
