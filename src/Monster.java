@@ -186,10 +186,10 @@ public class Monster extends Objects {
 				temp.setVelocityY(temp.getVelocityY() + 25);
 				temp.setVelocityX(temp.getVelocityX() - 5);
 				if(xvelocity!=0){
-					angle = -Math.tan(yvelocity/xvelocity);
+					angle = Math.tan(Math.PI-(yvelocity/xvelocity));
 				}
 				if(temp.xvelocity!=0){
-					angle = -Math.tan(temp.yvelocity/temp.xvelocity);
+					angle = Math.tan(Math.PI-(temp.yvelocity/temp.xvelocity));
 				}
 				list.append(temp);
 			}
@@ -198,10 +198,10 @@ public class Monster extends Objects {
 				temp.setVelocityY(temp.getVelocityY() + 5);
 				temp.setVelocityX(temp.getVelocityX() + 5);
 				if(xvelocity!=0){
-					angle = -Math.tan(yvelocity/xvelocity);
+					angle = Math.tan((temp.yvelocity/temp.xvelocity));
 				}
 				if(temp.xvelocity!=0){
-					angle = -Math.tan(temp.yvelocity/temp.xvelocity);
+					angle = Math.tan((temp.yvelocity/temp.xvelocity));
 				}
 				list.append(temp);
 			}
