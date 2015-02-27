@@ -10,14 +10,6 @@ public class Player extends Objects{
 	public void move(){
 		this.changeX(this.getVelocityX());
 		this.changeY(this.getVelocityY());
-		if(this.getX()<0)
-		{
-			this.setX(0);
-		}
-		if(this.getX()+width>600)
-		{
-			this.setX(600-width);
-		}	
 	}
 	public int getLives(){
 		return lives;

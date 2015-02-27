@@ -20,17 +20,17 @@ public class Sprite
 		y = yc;
 	}
 	
-	//public Image getImage()
-	//{
-		//return img;
-	//}
+	public Image getImage()
+	{
+		return img;
+	}
 	public void display(Graphics g, GamePanel gp)
 	{
 		AffineTransform at = new AffineTransform();
 		at.setToRotation(angle);
-		((Graphics2D)g).translate(x-width/2, y-height/2);
+		((Graphics2D)g).translate(x ,y);
 		((Graphics2D)g).drawImage(img, at, gp);
-		((Graphics2D)g).translate(0-x-width/2,0-y-height/2);
+		((Graphics2D)g).translate(0-x,0-y);
 	}
 	
 }

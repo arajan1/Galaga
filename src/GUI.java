@@ -18,22 +18,22 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	LinkedList<Sprite> livedisplay = new LinkedList<Sprite>();
 	Image img;
 	Stage stage = new Stage();
-	int level = 1;
+	int level = 4;
 	GamePanel gp;
 	boolean runonce = false;
 	boolean hit = false;
 	boolean donereturning = true;
 	boolean done = false;
 	boolean doublefighter = false;
+	boolean godmode = false;
 
-	/*
-	 * Monster test = new Monster(new
-	 * ImageIcon("redMonster copy.png").getImage(), 0, 0, 0, 0, 0, 100, 100, 0);
-	 * Monster test1 = new Monster(new
-	 * ImageIcon("redMonster copy.png").getImage(), 0, 0, 0, 0, 1, 282, 100, 0);
-	 */
-	 Monster test2 = new Monster(new ImageIcon("Commander.png").getImage(), 0, 0, 0, 0, 2, 500, 100, 0);
-	 
+	Monster test = new Monster(new ImageIcon("redMonster copy.png").getImage(),
+			0, 0, 0, 0, 0, 100, 100, 0);
+	Monster test1 = new Monster(
+			new ImageIcon("redMonster copy.png").getImage(), 0, 0, 0, 0, 1,
+			282, 100, 0);
+	Monster test2 = new Monster(new ImageIcon("Commander.png").getImage(), 0,
+			0, 0, 0, 2, 500, 100, 0);
 
 	// Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) {
@@ -58,8 +58,16 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				players.get(i).setVelocityX(-10);
 			}
 			break;
+		case KeyEvent.VK_G:
+			if(godmode==false){
+				godmode=true;
+				break;
+			}
+			if(godmode==true){
+				godmode=false;
+				break;
+			}
 		}
-
 	}
 
 	// Starts timer
@@ -71,8 +79,41 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		livedisplay.clear();
 		numoflives = 0;
+		if (players.size() == 2) {
+			if (players.get(0).getX() > players.get(1).getX()) {
+				if (players.get(1).getX() < 0) {
+					players.get(0).setX(50);
+					players.get(1).setX(0);
+				}
+				if (players.get(0).getX() > 600 - 50) {
+					players.get(0).setX(600 - 50);
+					players.get(1).setX(500);
+				}
+			}
+			if (players.get(1).getX() > players.get(0).getX()) {
+				if (players.get(0).getX() < 0) {
+					players.get(1).setX(50);
+					players.get(0).setX(0);
+				}
+				if (players.get(1).getX() > 600 - 50) {
+					players.get(1).setX(600 - 50);
+					players.get(0).setX(500);
+				}
+			}
+		} else {
+			if (players.get(0).getX() < 0) {
+				players.get(0).setX(0);
+			}
+			if (players.get(0).getX() > 600 - 50) {
+				players.get(0).setX(600 - 50);
+			}
+		}
 		for (int i = 0; i < players.size(); i++) {
-			numoflives = players.get(i).getLives();
+			numoflives += players.get(i).getLives();
+			players.get(i).move();
+			if(players.get(i).getLives()<=0 && godmode==false){
+				players.remove(i);
+			}
 		}
 		for (int i = 0; i < numoflives; i++) {
 			Sprite temp = new Sprite(
@@ -87,26 +128,26 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			players.add(temp);
 		}
 		monsterBullets.traverseListMonster(players);
-		for (int i = 0; i < players.size(); i++) {
-			players.get(i).move();
-		}
 		for (int i = 0; i < monsters.size(); i++) {
 			monsters.get(i).function(player, monsterBullets);
 			if (monsters.get(i).collidesWith(player)) {
-				player.died();
+				if (players.size() == 2) {
+					players.get(1).died();
+				} else {
+					player.died();
+				}
 				monsters.get(i).setX(monsters.get(i).getBaseX());
 				monsters.get(i).setY(monsters.get(i).getBaseY());
 			}
 		}
-
-		if (player.getLives() <= 0) {
+		if (numoflives <= 0 && godmode == false) {
 			t.stop();
 			done = true;
 		}
-		if (monsters.size() <= 0) {
+		if (level==4) {
+			//monsters = stage.makeMonsterList(level);
+			monsters.add(test2);
 			level++;
-			//monsters.add(test2);
-			monsters = stage.makeMonsterList(level);
 		}
 		LinkedList<Sprite> sprites = new LinkedList<Sprite>();
 		sprites.addAll(players);
@@ -116,7 +157,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 						new ImageIcon("capture.png").getImage(), 200, 450, 0);
 				sprites.add(temp);
 			}
-			if (monsters.get(i).hasCapture() == true) {
+			if (monsters.get(i).hasCapture() == true
+					&& monsters.get(i).getLives() >= 0) {
 				Sprite temp2 = new Sprite(new ImageIcon(
 						"CommanderHasCapture.png").getImage(), monsters.get(i)
 						.getX(), monsters.get(i).getY(), monsters.get(i).angle);

@@ -29,7 +29,9 @@ public class BulletList {
 			cnt++;
 		}
 	}
-
+	public void setCap(int a){
+		cap = a;
+	}
 	/** Remove and return current element */
 	public Bullet remove() {
 		if (curr.next() == null)
@@ -90,7 +92,16 @@ public class BulletList {
 			}
 			for (int k = 0; k < players.size(); k++) {
 				if (getValue().collidesWith(players.get(k))) {
-					players.get(k).died();
+					if(players.size()==2){
+						players.get(1).died();
+						remove();
+						break;
+					}
+					else{
+						players.get(k).died();
+						remove();
+						break;
+					}
 				}
 			}
 			next();

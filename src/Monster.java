@@ -24,6 +24,7 @@ public class Monster extends Objects {
 	boolean needtoreturn = false;
 	boolean startcapture = false;
 	boolean drawcapture = false;
+	boolean isattacking = false;
 
 	Monster(Image img, int a, int b, int c, int d, int e, int f, int g, double angle) {
 		super(img, a, b, c, d, angle);
@@ -184,11 +185,10 @@ public class Monster extends Objects {
 				temp.approach(playerx - 50, playery);
 				temp.setVelocityY(temp.getVelocityY() + 25);
 				temp.setVelocityX(temp.getVelocityX() - 5);
-				if(xvelocity!=0){
-					angle = Math.atan(-(yvelocity/xvelocity));
-				}
-				if(temp.xvelocity!=0){
-					angle = Math.atan(-(temp.yvelocity/temp.xvelocity));
+				if(yvelocity!=0){
+					angle = Math.PI - Math.atan(((double)xvelocity)/((double)yvelocity));
+				if(temp.yvelocity!=0){
+					temp.angle = Math.PI - Math.atan(((double)temp.xvelocity)/((double)temp.yvelocity));
 				}
 				list.append(temp);
 			}
@@ -196,16 +196,19 @@ public class Monster extends Objects {
 				temp.approach(playerx + 50, playery);
 				temp.setVelocityY(temp.getVelocityY() + 5);
 				temp.setVelocityX(temp.getVelocityX() + 5);
-				if(xvelocity!=0){
-					angle = Math.atan(-(temp.yvelocity/temp.xvelocity));
+				if(yvelocity!=0){
+					angle = Math.PI - Math.atan(((double)xvelocity)/((double)yvelocity));
+
 				}
-				if(temp.xvelocity!=0){
-					angle = Math.atan((temp.yvelocity/temp.xvelocity));
+				if(temp.yvelocity!=0){
+					temp.angle = Math.PI - Math.atan(((double)temp.xvelocity)/((double)temp.yvelocity));
 				}
 				list.append(temp);
 			}
-		}
+			System.out.println("X:"+xvelocity+" Y:" + yvelocity);
+			}
 		attack = true;
+		}
 	} // monster shooting bullets
 
 	public void moveBackandFowarth() {
@@ -301,15 +304,14 @@ public class Monster extends Objects {
 		if (attack == false && startcapture==false) {
 			moveBackandFowarth();
 		}
-		if (rand.nextInt(attackvariable) < 10 && endingover == true) {
-			System.out.println("attack");
-			if(monsterindex==2&&rand.nextInt(10)<1){
-				System.out.println("go");
+		if (rand.nextInt(attackvariable) < 10 && endingover == true&&isattacking==false) {
+			if(monsterindex==2&&rand.nextInt(20)<1){
 				angle=0;
 				startcapture=true;
 			}
 			else{
-				attack(player.getX(), player.getY(), monster);
+				attack(player.getX(), player.getY(), monster);	
+				isattacking = true;
 			}
 		}
 		if(startcapture==true){
@@ -326,6 +328,7 @@ public class Monster extends Objects {
 				xvelocity = 0;
 				yvelocity = 0;
 				needtoreturn = false;
+				isattacking = false;
 			}
 		}
 		incrementAngle();
