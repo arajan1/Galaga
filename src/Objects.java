@@ -78,8 +78,8 @@ public abstract class Objects extends Sprite
 	public void approach(int a, int b){
 		if (this.getX()<=a+10 && this.getY()<=b+10 &&this.getX()>=a-10 && this.getY()>=b-10);
 		else{
-			this.setVelocityX((a-(x+width/2))/30);
-			this.setVelocityY((b-(y+height/2))/30);
+			this.setVelocityX((a-(x+width/2))/50);
+			this.setVelocityY((b-(y+height/2))/50);
 		}
 	}
 	public void move(){

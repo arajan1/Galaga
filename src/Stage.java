@@ -81,33 +81,20 @@ public class Stage {
 				bxspace = (520 - inlastrow * 35) / (inlastrow + 1);// changes spacing in last row
 			bx = 40 + bxspace + (bxspace + 35) * rowplace;// determine x coord
 			pick = randPick(choice);
-			if (pick == 0) {// For red monster
+			if (pick == 0 && red!=0) {// For red monster
 				temp = new Monster(new ImageIcon("redMonster copy.png").getImage(), 0, 0, 35, 28, 0, bx, by, 0);// creates a monster of type red with base coords "(bx,by)"
 				mash.add(temp);// appends to returned list
-				red--;// next few lines make sure only the initially determined
-						// amount of red monsters are generated
-				if (red == 0) {
-					opts.remove(valIndex(opts, 0));
-					choice--;
-				}
+				red--;
 			}
-			if (pick == 1) {// same as above, but for yellow
+			if (pick == 1 && ylw!=0) {// same as above, but for yellow
 				temp = new Monster(new ImageIcon("beeEnemy copy.png").getImage(),0, 0, 35, 28, 1, bx, by, 0);
 				mash.add(temp);
 				ylw--;
-				if (ylw == 0) {
-					opts.remove(valIndex(opts, 1));
-					choice--;
-				}
 			}
-			if (pick == 2) {// same as above but for cap
+			if (pick == 2 && cap!=0) {// same as above but for cap
 				temp = new Monster(new ImageIcon("Commander.png").getImage(),0, 0, 35, 38, 2, bx, by, 0);
 				mash.add(temp);
 				cap--;
-				if (cap == 0) {
-					opts.remove(valIndex(opts, 2));
-					choice--;
-				}
 			}
 		}
 		// System.out.println("Stage: "+stg+"\nTotal Monsters: "+tot+"\nRatio R:Y:C: "+red+":"+ylw+":"+cap+"\n");//toString for stage

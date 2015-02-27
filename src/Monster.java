@@ -35,19 +35,19 @@ public class Monster extends Objects {
 			lives = 1;
 			width = 35;
 			height = 26;
-			attackvariable = 2000;
+			attackvariable = 10000;
 		}
 		if (e == 1) {
 			lives = 2;
 			width = 35;
 			height = 27;
-			attackvariable = 1500;
+			attackvariable = 5000;
 		}
 		if (e == 2) {
 			lives = 3;
 			width = 35;
 			height = 38;
-			attackvariable = 1000;
+			attackvariable = 3000;
 		}
 	}
 
@@ -106,7 +106,6 @@ public class Monster extends Objects {
 				setVelocityY(0);
 				startcircle = true;
 			}
-			System.out.println(angle);
 			if (startcircle == true && angle < Math.PI * 3 && basex < 300) {
 				setVelocityX(((int) (-20 * Math.cos(angle + Math.PI + .25))));
 				setVelocityY(((int) (20 * Math.sin(angle + Math.PI + .25))));
@@ -119,9 +118,9 @@ public class Monster extends Objects {
 				approach(basex, basey);
 				startending = true;
 			}
-			if ((this.getX() + 50 > this.getBaseX() && this.getX() - 50 < this
+			if ((this.getX() + 70 > this.getBaseX() && this.getX() - 70 < this
 					.getBaseX())
-					&& ((this.getY() + 50 > this.getBaseY() && this.getY() - 50 < this
+					&& ((this.getY() + 70 > this.getBaseY() && this.getY() - 70 < this
 							.getBaseY())) && startending == true) {
 				setVelocityX(0);
 				setVelocityY(0);
@@ -162,9 +161,9 @@ public class Monster extends Objects {
 				approach(basex, basey);
 				startending = true;
 			}
-			if ((this.getX() + 40 > this.getBaseX() && this.getX() - 40 < this
+			if ((this.getX() + 70 > this.getBaseX() && this.getX() - 70 < this
 					.getBaseX())
-					&& ((this.getY() + 40 > this.getBaseY() && this.getY() - 40 < this
+					&& ((this.getY() + 70 > this.getBaseY() && this.getY() - 70 < this
 							.getBaseY())) && startending == true) {
 				setVelocityX(0);
 				setVelocityY(0);
@@ -186,10 +185,10 @@ public class Monster extends Objects {
 				temp.setVelocityY(temp.getVelocityY() + 25);
 				temp.setVelocityX(temp.getVelocityX() - 5);
 				if(xvelocity!=0){
-					angle = Math.tan(Math.PI-(yvelocity/xvelocity));
+					angle = Math.atan(-(yvelocity/xvelocity));
 				}
 				if(temp.xvelocity!=0){
-					angle = Math.tan(Math.PI-(temp.yvelocity/temp.xvelocity));
+					angle = Math.atan(-(temp.yvelocity/temp.xvelocity));
 				}
 				list.append(temp);
 			}
@@ -198,10 +197,10 @@ public class Monster extends Objects {
 				temp.setVelocityY(temp.getVelocityY() + 5);
 				temp.setVelocityX(temp.getVelocityX() + 5);
 				if(xvelocity!=0){
-					angle = Math.tan((temp.yvelocity/temp.xvelocity));
+					angle = Math.atan(-(temp.yvelocity/temp.xvelocity));
 				}
 				if(temp.xvelocity!=0){
-					angle = Math.tan((temp.yvelocity/temp.xvelocity));
+					angle = Math.atan((temp.yvelocity/temp.xvelocity));
 				}
 				list.append(temp);
 			}

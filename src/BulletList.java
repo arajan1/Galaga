@@ -1,10 +1,7 @@
 import java.awt.Image;
 import java.util.LinkedList;
 
-
-
-public class BulletList 
-{
+public class BulletList {
 	private Link<Bullet> head; // Pointer to list header
 	private Link<Bullet> tail; // Pointer to last element
 	protected Link<Bullet> curr; // Access to current element
@@ -12,33 +9,29 @@ public class BulletList
 	int cap;
 
 	/** Constructors */
-	BulletList(int a) 
-	{
+	BulletList(int a) {
 		curr = tail = head = new Link<Bullet>(null); // Create header
 		cnt = 0;
 		cap = a;
 	}
 
 	/** Remove all elements */
-	public void clear() 
-	{
+	public void clear() {
 		head.setNext(null); // Drop access to links
 		curr = tail = head = new Link<Bullet>(null); // Create header
 		cnt = 0;
 	}
 
 	/** Append "it" to list */
-	public void append(Bullet it) 
-	{
-		if(length()<cap){
+	public void append(Bullet it) {
+		if (length() < cap) {
 			tail = tail.setNext(new Link<Bullet>(it, null));
 			cnt++;
 		}
 	}
 
 	/** Remove and return current element */
-	public Bullet remove() 
-	{
+	public Bullet remove() {
 		if (curr.next() == null)
 			return null; // Nothing to remove
 		Bullet it = curr.next().element(); // Remember value
@@ -50,20 +43,17 @@ public class BulletList
 	}
 
 	/** Set curr at list start */
-	public void moveToStart() 
-	{
+	public void moveToStart() {
 		curr = head;
 	}
 
 	/** Set curr at list end */
-	public void moveToEnd() 
-	{
+	public void moveToEnd() {
 		curr = tail;
 	}
 
 	/** Move curr one step left; no change if now at front */
-	public void prev() 
-	{
+	public void prev() {
 		if (curr == head)
 			return; // No previous element
 		Link<Bullet> temp = head;
@@ -74,92 +64,85 @@ public class BulletList
 	}
 
 	/** Move curr one step right; no change if now at end */
-	public void next() 
-	{
+	public void next() {
 		if (curr != tail)
 			curr = curr.next();
 	}
 
 	/** @return List length */
-	public int length() 
-	{
+	public int length() {
 		return cnt;
 	}
 
-	public Bullet getValue() 
-	{
+	public Bullet getValue() {
 		if (curr.next() == null)
 			return null;
 		return (Bullet) curr.next().element();
 	}
-	
-	public void traverseListMonster(LinkedList<Player> players)
-	{
+
+	public void traverseListMonster(LinkedList<Player> players) {
 		moveToStart();
-		for(int i = 0; i < length(); i++){
-			if(getValue()!=null){
+		for (int i = 0; i < length(); i++) {
+			if (getValue() != null) {
 				getValue().move();
-			}
-			else if(getValue().getY()>800){
+			} else if (getValue().getY() > 800) {
 				remove();
 			}
-			for(int k = 0; k < players.size(); k++){
-				if(getValue().collidesWith(players.get(k))){
+			for (int k = 0; k < players.size(); k++) {
+				if (getValue().collidesWith(players.get(k))) {
 					players.get(k).died();
 				}
 			}
 			next();
 		}
 	}
-	public boolean traverseListPlayer(LinkedList<Monster> monsters){
+
+	public boolean traverseListPlayer(LinkedList<Monster> monsters) {
 		moveToStart();
-		for(int i = 0; i < length(); i++){
-			if(getValue()!=null){
+		for (int i = 0; i < length(); i++) {
+			if (getValue() != null) {
 				getValue().move();
 			}
-			for(int k = 0; k <  monsters.size(); k++)
-			{
-				if(monsters.get(k).collidesWith(getValue())){
-					if(monsters.get(k).died()){
-						if(monsters.get(k).hasCapture()){
+			if (getValue().getY() < 0) {
+				remove();
+			} else if (getValue().getY() > 800) {
+				remove();
+			} else {
+				for (int k = 0; k < monsters.size(); k++) {
+					if (monsters.get(k).collidesWith(getValue())) {
+						if (monsters.get(k).died()) {
+							if (monsters.get(k).hasCapture()) {
+								monsters.remove(k);
+								return true;
+							}
 							monsters.remove(k);
-							return true;
 						}
-						monsters.remove(k);
+						remove();
+						break;
 					}
 				}
+				next();
 			}
-			if(getValue().getY()<0){
-				remove();
-			}
-			else if(getValue().getY()>800){
-				remove();
-			}
-			next();
 		}
 		return false;
 	}
 }
 
-class Link<Bullet> 
-{
+class Link<Bullet> {
 	private Bullet element; // Value for this node
 	private Link<Bullet> next; // Pointer to next node in list
 
 	// Constructors
-	Link(Bullet it, Link<Bullet> nextval) 
-	{
+	Link(Bullet it, Link<Bullet> nextval) {
 		element = it;
 		next = nextval;
 	}
 
-	Link(Link<Bullet> nextval) 
-	{
+	Link(Link<Bullet> nextval) {
 		next = nextval;
 	}
 
-	Link<Bullet> next() 
-	{
+	Link<Bullet> next() {
 		return next;
 	} // Return next field
 
@@ -168,22 +151,17 @@ class Link<Bullet>
 		return next = nextval;
 	} // Return element field
 
-	Bullet element() 
-	{
+	Bullet element() {
 		return element;
 	} // Set element field
 
-	Bullet setElement(Bullet it) 
-	{
+	Bullet setElement(Bullet it) {
 		return element = it;
 	}
 }
 
-
-class Bullet extends Objects
-{
-	Bullet(Image a, int b, int c, int d, int e, double angle) 
-	{
+class Bullet extends Objects {
+	Bullet(Image a, int b, int c, int d, int e, double angle) {
 		super(a, b, c, d, e, angle);
 	}
 }

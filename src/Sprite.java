@@ -9,6 +9,8 @@ public class Sprite
 	double angle;//so sprite can be rotated according to velocity
 	int x;
 	int y;
+	int width;
+	int height;
 	Image img;
 	public Sprite(Image im, int xc, int yc, double angle)
 	{
@@ -26,9 +28,9 @@ public class Sprite
 	{
 		AffineTransform at = new AffineTransform();
 		at.setToRotation(angle);
-		((Graphics2D)g).translate(x, y);
+		((Graphics2D)g).translate(x-width/2, y-height/2);
 		((Graphics2D)g).drawImage(img, at, gp);
-		((Graphics2D)g).translate(0-x,0-y);
+		((Graphics2D)g).translate(0-x-width/2,0-y-height/2);
 	}
 	
 }
