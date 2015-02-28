@@ -10,21 +10,21 @@ public class ScoreBoard {
 	int[] scores;
 	int level;
 	public ScoreBoard() {
-		scores = new int[3];
-		int level = 0;
+		scores = new int[3];//This stores the number of kills for each type of monster
+		int level = 0;//Stores the level that the player has achieved
 	}
 
-	public void addKill(int type) {
+	public void addKill(int type) {//Adds a kill of a given monster type
 		if (type > 2 || type < 0) {
 			return;
 		}
 		scores[type]++;
 	}
-	public void addLevel(){
+	public void addLevel(){//Indicates that the player has reached the next level
 		level++;
 	}
 
-	public void display(Graphics g, GamePanel gp) {
+	public void display(Graphics g, GamePanel gp) {//Tells the GamePanel how to display the scoreBoard
 		g.drawImage(new ImageIcon("redMonster copy.png").getImage(), 100, 125,
 				gp);
 		g.drawImage(new ImageIcon("beeEnemy copy.png").getImage(), 100, 325,
