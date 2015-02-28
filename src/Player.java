@@ -15,11 +15,6 @@ public class Player extends Objects{
 		return lives;
 	}
 	
-	public void addLive(int level){
-		if(level+1%5 == 0){
-			lives++;
-		}
-	}
 	public void died(){
 		this.setX(275);
 		this.setY(725);

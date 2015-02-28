@@ -8,7 +8,7 @@ import javax.swing.*;
 public class GUI extends JFrame implements ActionListener, KeyListener {
 	private Timer t = new Timer(20, this);
 	Player player = new Player(new ImageIcon("galagaship.png").getImage(), 275,
-			725, 50, 50, 3, 0);
+			725, 50, 50, 15, 0);
 	BulletList playerBullets = new BulletList(2);
 	int numoflives = 0;
 	Random rand = new Random();
@@ -18,23 +18,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	LinkedList<Sprite> livedisplay = new LinkedList<Sprite>();
 	Image img;
 	Stage stage = new Stage();
-	int level = 0;
+	int level = 5;
 	GamePanel gp;
-	boolean runonce = false;
-	boolean hit = false;
 	boolean done = false;
-	boolean doublefighter = false;
 	boolean godmode = false;
-
-	Monster test = new Monster(new ImageIcon("redMonster copy.png").getImage(),
-			0, 0, 0, 0, 0, 100, 100, 0);
-	Monster test1 = new Monster(
-			new ImageIcon("redMonster copy.png").getImage(), 0, 0, 0, 0, 1,
-			282, 100, 0);
-	Monster test2 = new Monster(new ImageIcon("Commander.png").getImage(), 0,
-			0, 0, 0, 2, 500, 100, 0);
-	Monster test3 = new Monster(new ImageIcon("Commander.png").getImage(), 0,
-					0, 0, 0, 2, 500, 100, 0);
+	boolean canfire = true;
 
 	// Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) {
@@ -48,6 +36,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				temp.setVelocityY(-45);
 				playerBullets.append(temp);
 			}
+			canfire = false;
 			break;
 		case KeyEvent.VK_D: // Move Right
 			for (int i = 0; i < players.size(); i++) {
@@ -60,12 +49,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			}
 			break;
 		case KeyEvent.VK_G:
-			if(godmode==false){
-				godmode=true;
+			if (godmode == false) {
+				godmode = true;
 				break;
 			}
-			if(godmode==true){
-				godmode=false;
+			if (godmode == true) {
+				godmode = false;
 				break;
 			}
 		}
@@ -81,6 +70,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		livedisplay.clear();
 		numoflives = 0;
 		if (players.size() == 2) {
+			playerBullets.setCap(4);
 			if (players.get(0).getX() > players.get(1).getX()) {
 				if (players.get(1).getX() < 0) {
 					players.get(0).setX(50);
@@ -102,6 +92,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				}
 			}
 		} else {
+			playerBullets.setCap(2);
 			if (players.get(0).getX() < 0) {
 				players.get(0).setX(0);
 			}
@@ -112,7 +103,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		for (int i = 0; i < players.size(); i++) {
 			numoflives += players.get(i).getLives();
 			players.get(i).move();
-			if(players.get(i).getLives()<=0 && godmode==false){
+			if (players.get(i).getLives() <= 0 && godmode == false) {
 				players.remove(i);
 			}
 		}
@@ -122,7 +113,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 					600 - 30 * i, 0);
 			livedisplay.add(temp);
 		}
-		if (playerBullets.traverseListPlayer(monsters,gp.getBoard())) {
+		if (playerBullets.traverseListPlayer(monsters, gp.getBoard())) {
 			Player temp = new Player(
 					new ImageIcon("galagaship.png").getImage(), player.getX()
 							+ player.getWidth(), player.getY(), 50, 50, 1, 0);
@@ -130,7 +121,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		}
 		monsterBullets.traverseListMonster(players);
 		for (int i = 0; i < monsters.size(); i++) {
-			monsters.get(i).function(player, monsterBullets);
+			monsters.get(i).function(players, monsterBullets);
 			if (monsters.get(i).collidesWith(player)) {
 				if (players.size() == 2) {
 					players.get(1).died();
@@ -141,10 +132,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				monsters.get(i).setY(monsters.get(i).getBaseY());
 			}
 		}
-		if (monsters.size()==0) {
+		if (monsters.size() == 0) {
 			monsters = stage.makeMonsterList(level);
 			level++;
-			player.addLive(level);
 			gp.getBoard().addLevel();
 
 		}
@@ -179,12 +169,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		sprites.addAll(livedisplay);
 		if (numoflives <= 0 && godmode == false) {
 			gp.gameOver();
-			done=true;
+			done = true;
 		}
 		gp.setSprites(sprites);
 		gp.repaint();
 		repaint();
-		if(done==true){
+		if (done == true) {
 			t.stop();
 		}
 	}
@@ -214,6 +204,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
+		case KeyEvent.VK_SPACE: // Press Space Bar
+			canfire=true;
+			break;
 		case KeyEvent.VK_D: // Move Right
 			for (int i = 0; i < players.size(); i++) {
 				players.get(i).setVelocityX(0);

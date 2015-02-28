@@ -1,4 +1,5 @@
 import java.awt.Image;
+import java.util.LinkedList;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -25,6 +26,7 @@ public class Monster extends Objects {
 	boolean startcapture = false;
 	boolean drawcapture = false;
 	boolean isattacking = false;
+	
 
 	Monster(Image img, int a, int b, int c, int d, int e, int f, int g, double angle) {
 		super(img, a, b, c, d, angle);
@@ -297,23 +299,23 @@ public class Monster extends Objects {
 		}
 	}
 
-	public void function(Player player, BulletList monster) {
+	public void function(LinkedList<Player> player, BulletList monster) {
 		move();
 		enter();
 		if (attack == false && startcapture==false) {
 			moveBackandFowarth();
 		}
 		if (rand.nextInt(attackvariable) < 10 && endingover == true) {
-			if(monsterindex==2&&rand.nextInt(5)<1){
+			if(monsterindex==2&&rand.nextInt(3)<1&&player.size()!=2){
 				angle=0;
 				startcapture=true;
 			}
 			else if(startcapture == false){
-				attack(player.getX(), player.getY(), monster);	
+				attack(player.get(0).getX(), player.get(0).getY(), monster);	
 			}
 		}
 		if(startcapture==true){
-			captureMonster(player);
+			captureMonster(player.get(0));
 		}
 		if (y > 800) {
 			y = 0;

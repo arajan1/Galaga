@@ -71,8 +71,6 @@ public class Stage {
 		if (stg4)
 			choice++;
 		for (int i = 0; i < tot; tot--) {// creates "tot" monsters
-			System.out.println("Stage: " + stg + "\nTotal Monsters: " + tot
-					+ "\nRatio R:Y:C: " + red + ":" + ylw + ":" + cap + "\n");
 			place = tothold - tot;
 			row = place / 10;
 			rowplace = place % 10;
