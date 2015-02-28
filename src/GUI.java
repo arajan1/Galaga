@@ -20,7 +20,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 
 	Image img;
 	Stage stage = new Stage(); // Structure to make levels
-	int level = 4; // current level
+	int level = 0; // current level
 	GamePanel gp;
 	boolean done = false; // end game
 	boolean godmode = false; // hacks
