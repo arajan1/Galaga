@@ -6,28 +6,31 @@ import java.util.Random;
 import javax.swing.*;
 
 public class GUI extends JFrame implements ActionListener, KeyListener {
-	private Timer t = new Timer(20, this);
+	private Timer t = new Timer(20, this); //Timer
 	Player player = new Player(new ImageIcon("galagaship.png").getImage(), 275,
-			725, 50, 50, 15, 0);
-	BulletList playerBullets = new BulletList(2);
+			725, 50, 50, 3, 0); // Create starting character
 	int numoflives = 0;
-	Random rand = new Random();
-	BulletList monsterBullets = new BulletList(100);
+	int numinplay = 5;
+	//Create lists for sprites
 	LinkedList<Monster> monsters = new LinkedList<Monster>();
 	LinkedList<Player> players = new LinkedList<Player>();
 	LinkedList<Sprite> livedisplay = new LinkedList<Sprite>();
+	BulletList monsterBullets = new BulletList(10000); 
+	BulletList playerBullets = new BulletList(2); //2 cap for player
+
 	Image img;
-	Stage stage = new Stage();
-	int level = 5;
+	Stage stage = new Stage(); //Structure to make levels
+	int level = 0; //current level
 	GamePanel gp;
-	boolean done = false;
-	boolean godmode = false;
+	boolean done = false; //end game
+	boolean godmode = false; //hacks
 	boolean canfire = true;
+	boolean canfunction = false;
 
 	// Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_SPACE: // Press Space Bar
+		case KeyEvent.VK_SPACE: // Press Space Bar  Fires bullet
 			for (int i = 0; i < players.size(); i++) {
 				Bullet temp = new Bullet(
 						new ImageIcon("bullet.png").getImage(), players.get(i)
@@ -48,7 +51,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				players.get(i).setVelocityX(-10);
 			}
 			break;
-		case KeyEvent.VK_G:
+		case KeyEvent.VK_G:  //Toggles god mode
 			if (godmode == false) {
 				godmode = true;
 				break;
@@ -69,7 +72,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		livedisplay.clear();
 		numoflives = 0;
-		if (players.size() == 2) {
+		if (players.size() == 2) {  //Display Lives and creates bounds for player while double fighter
 			playerBullets.setCap(4);
 			if (players.get(0).getX() > players.get(1).getX()) {
 				if (players.get(1).getX() < 0) {
@@ -106,23 +109,24 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			if (players.get(i).getLives() <= 0 && godmode == false) {
 				players.remove(i);
 			}
-		}
+		} 
 		for (int i = 0; i < numoflives; i++) {
 			Sprite temp = new Sprite(
 					new ImageIcon("galagashiplive.png").getImage(), 0,
 					600 - 30 * i, 0);
 			livedisplay.add(temp);
 		}
-		if (playerBullets.traverseListPlayer(monsters, gp.getBoard())) {
+		if (playerBullets.traverseListPlayer(monsters, gp.getBoard())) {  //Manages player bullets.  Makes second fighter if you kill a capturing commander
 			Player temp = new Player(
 					new ImageIcon("galagaship.png").getImage(), player.getX()
 							+ player.getWidth(), player.getY(), 50, 50, 1, 0);
 			players.add(temp);
 		}
-		monsterBullets.traverseListMonster(players);
-		for (int i = 0; i < monsters.size(); i++) {
-			monsters.get(i).function(players, monsterBullets);
-			if (monsters.get(i).collidesWith(player)) {
+		monsterBullets.traverseListMonster(players);  //Manages monster bullets
+		System.out.println(numinplay);
+		for (int i = 0; (i < numinplay || canfunction==true)&& i < monsters.size(); i++) {
+			monsters.get(i).function(players, monsterBullets); //Controls monsters
+			if (monsters.get(i).collidesWith(player)) {  
 				if (players.size() == 2) {
 					players.get(1).died();
 				} else {
@@ -131,13 +135,25 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				monsters.get(i).setX(monsters.get(i).getBaseX());
 				monsters.get(i).setY(monsters.get(i).getBaseY());
 			}
+			if(i == numinplay-1 &&canfunction==false){
+				if(monsters.get(i).endingover==true){
+					numinplay+=5;
+				}
+			}
+			if(i==monsters.size()-1&&canfunction==false){
+				numinplay=5;
+				canfunction=true;
+			}
 		}
-		if (monsters.size() == 0) {
+		if (monsters.size() == 0) { //Makes the stages and manages levels
 			monsters = stage.makeMonsterList(level);
 			level++;
+			canfunction=false;
 			gp.getBoard().addLevel();
 
 		}
+		//Draw all components by adding to sprites
+		System.out.println(monsters.size());
 		LinkedList<Sprite> sprites = new LinkedList<Sprite>();
 		sprites.addAll(players);
 		for (int i = 0; i < monsters.size(); i++) {
@@ -174,7 +190,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		gp.setSprites(sprites);
 		gp.repaint();
 		repaint();
-		if (done == true) {
+		if (done == true) {//Functions gameover
 			t.stop();
 		}
 	}
@@ -183,7 +199,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		GUI game = new GUI();
 	}
 
-	GUI() {
+	GUI() {//Declares necessary game components
 		gp = new GamePanel();
 		players.add(player);
 		add(gp);
@@ -204,15 +220,15 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_SPACE: // Press Space Bar
+		case KeyEvent.VK_SPACE: //Stops rapid fire in certain scenarios
 			canfire=true;
 			break;
-		case KeyEvent.VK_D: // Move Right
+		case KeyEvent.VK_D: //Stop movement when not held down
 			for (int i = 0; i < players.size(); i++) {
 				players.get(i).setVelocityX(0);
 			}
 			break;
-		case KeyEvent.VK_A: // Move Left
+		case KeyEvent.VK_A: //Stop movement when not held down
 			for (int i = 0; i < players.size(); i++) {
 				players.get(i).setVelocityX(0);
 			}

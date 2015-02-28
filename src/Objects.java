@@ -1,5 +1,5 @@
 import java.awt.Image;
-
+//Base aspects for all objects being made in project
 public abstract class Objects extends Sprite
 {
 	int width;

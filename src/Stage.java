@@ -83,15 +83,15 @@ public class Stage {
 			bx = 40 + bxspace + (bxspace + 35) * rowplace;// determine x coord
 			// adds in the monsters in order of type from red to ylw to cap
 			if (red != 0) {
-				temp = new Monster(new ImageIcon("redMonster copy.png").getImage(),0, 0, 35, 28, 0, bx, by,0);
+				temp = new Monster(new ImageIcon("redMonster copy.png").getImage(),-100, 0, 35, 28, 0, bx, by,0);
 				mash.add(temp);
 				red--;
 			} else if (red == 0 && ylw != 0) {
-				temp = new Monster(new ImageIcon("beeEnemy copy.png").getImage(), 0, 0, 35, 28, 1, bx, by, 0);
+				temp = new Monster(new ImageIcon("beeEnemy copy.png").getImage(), -100, 0, 35, 28, 1, bx, by, 0);
 				mash.add(temp);
 				ylw--;
 			} else if (red == 0 && ylw == 0 && stg4) {
-				temp = new Monster(new ImageIcon("Commander.png").getImage(), 0, 0, 35, 38, 2, bx, by, 0);
+				temp = new Monster(new ImageIcon("Commander.png").getImage(), -100, 0, 35, 38, 2, bx, by, 0);
 				mash.add(temp);
 				cap--;
 			}

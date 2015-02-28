@@ -5,14 +5,14 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 public class Monster extends Objects {
-	int basex;
-	int basey;
+	int basex; //Base X location on grid
+	int basey; //Base Y location on Grid
 	int monsterindex;
 	int lives;
-	int attackvariable;
+	int attackvariable; //How often it attacks
 	Random rand = new Random();
-	int pausefactor = 0;
-	boolean approachdone = false;
+	int pausefactor = 0; //buffers
+	boolean approachdone = false; 
 	boolean captureapproach = false;
 	boolean startcircle = false;
 	boolean rightside = false;
@@ -24,23 +24,21 @@ public class Monster extends Objects {
 	boolean attack = false;
 	boolean needtoreturn = false;
 	boolean startcapture = false;
-	boolean drawcapture = false;
-	boolean isattacking = false;
-	
+	boolean drawcapture = false;	
 
 	Monster(Image img, int a, int b, int c, int d, int e, int f, int g, double angle) {
 		super(img, a, b, c, d, angle);
 		basex = f;
 		basey = g;
 
-		monsterindex = e;
+		monsterindex = e; //Determines type of monster
 		if (e == 0) {
 			lives = 1;
 			width = 35;
 			height = 26;
 			attackvariable = 8000;
 		}
-		if (e == 1) {
+		if (e == 1) { 
 			lives = 2;
 			width = 35;
 			height = 27;
@@ -56,7 +54,7 @@ public class Monster extends Objects {
 
 	// RED MINION = MONSTER INDEX 0
 	// YELLOW MINION = MONSTER INDEX 1
-	// CAPTURE MINION = MONSTER INDEX 2\
+	// CAPTURE MINION = MONSTER INDEX 2
 	public int getBaseX() {
 		return basex;
 	}

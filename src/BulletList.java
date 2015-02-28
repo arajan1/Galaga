@@ -1,98 +1,73 @@
 import java.awt.Image;
 import java.util.LinkedList;
-
+//LinkedList to manage bullets
 public class BulletList {
-	private Link<Bullet> head; // Pointer to list header
-	private Link<Bullet> tail; // Pointer to last element
-	protected Link<Bullet> curr; // Access to current element
-	int cnt; // Size of list
+	private Link<Bullet> head; 
+	private Link<Bullet> tail; 
+	protected Link<Bullet> curr; 
+	int cnt;
 	int cap;
 
-	/** Constructors */
-	BulletList(int a) {
+	BulletList(int a) {//Constructer
 		curr = tail = head = new Link<Bullet>(null); // Create header
 		cnt = 0;
 		cap = a;
 	}
-
-	/** Remove all elements */
-	public void clear() {
-		head.setNext(null); // Drop access to links
-		curr = tail = head = new Link<Bullet>(null); // Create header
-		cnt = 0;
-	}
-
-	/** Append "it" to list */
+	
+	//add bullets
 	public void append(Bullet it) {
 		if (length() < cap) {
 			tail = tail.setNext(new Link<Bullet>(it, null));
 			cnt++;
 		}
 	}
-	public void setCap(int a){
+	public void setCap(int a){ //Set cap
 		cap = a;
 	}
-	/** Remove and return current element */
+	//Remove bullet
 	public Bullet remove() {
 		if (curr.next() == null)
-			return null; // Nothing to remove
-		Bullet it = curr.next().element(); // Remember value
+			return null;
+		Bullet it = curr.next().element(); 
 		if (tail == curr.next())
-			tail = curr; // Removed last
-		curr.setNext(curr.next().next()); // Remove from list
-		cnt--; // Decrement count
-		return it; // Return value
+			tail = curr; 
+		curr.setNext(curr.next().next()); 
+		cnt--; 
+		return it; 
 	}
 
-	/** Set curr at list start */
 	public void moveToStart() {
 		curr = head;
 	}
 
-	/** Set curr at list end */
-	public void moveToEnd() {
-		curr = tail;
-	}
-
-	/** Move curr one step left; no change if now at front */
-	public void prev() {
-		if (curr == head)
-			return; // No previous element
-		Link<Bullet> temp = head;
-		// March down list until we find the previous element
-		while (temp.next() != curr)
-			temp = temp.next();
-		curr = temp;
-	}
-
-	/** Move curr one step right; no change if now at end */
+	//Iterate through list
 	public void next() {
 		if (curr != tail)
 			curr = curr.next();
 	}
 
-	/** @return List length */
+	//Return length
 	public int length() {
 		return cnt;
 	}
-
+	//Get value
 	public Bullet getValue() {
 		if (curr.next() == null)
 			return null;
 		return (Bullet) curr.next().element();
 	}
-
+	//Function used for monster bullets
 	public void traverseListMonster(LinkedList<Player> players) {
 		moveToStart();
 		for (int i = 0; i < length(); i++) {
 			if (getValue() != null) {
 				getValue().move();
-			} else if (getValue().getY() > 800) {
+			} else if (getValue().getY() > 800) {//removes bullets after leaving screen
 				remove();
 			}
 			for (int k = 0; k < players.size(); k++) {
 				if (getValue().collidesWith(players.get(k))) {
-					if(players.size()==2){
+					if(players.size()==2){//Deals with two players
 						players.get(1).died();
 						remove();
 						break;
@@ -116,9 +91,8 @@ public class BulletList {
 			}
 			if (getValue().getY() < 0) {
 				remove();
-			} else if (getValue().getY() > 800) {
-				remove();
-			} else {
+			} 
+			else {
 				for (int k = 0; k < monsters.size(); k++) {
 					if (monsters.get(k).collidesWith(getValue())) {
 						if (monsters.get(k).died()) {
@@ -128,7 +102,7 @@ public class BulletList {
 								return true;
 							}
 							else{
-								board.addKill(monsters.get(k).monsterindex);
+								board.addKill(monsters.get(k).monsterindex);//Adds to score board
 								monsters.remove(k);
 							}
 						}
@@ -143,7 +117,7 @@ public class BulletList {
 	}
 }
 
-class Link<Bullet> {
+class Link<Bullet> { //Link Class
 	private Bullet element; // Value for this node
 	private Link<Bullet> next; // Pointer to next node in list
 
@@ -174,7 +148,7 @@ class Link<Bullet> {
 		return element = it;
 	}
 }
-
+//Bullet class for organization purposes
 class Bullet extends Objects {
 	Bullet(Image a, int b, int c, int d, int e, double angle) {
 		super(a, b, c, d, e, angle);

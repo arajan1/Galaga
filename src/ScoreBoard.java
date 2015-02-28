@@ -38,6 +38,6 @@ public class ScoreBoard {
 		g.drawString(scores[0] + "", 200, 150);
 		g.drawString(scores[1] + "", 200, 350);
 		g.drawString(scores[2] + "", 200, 550);
-		g.drawString("Level:" + level + "", 200, 725);
+		g.drawString("Level: " + level + "", 200, 725);
 	}
 }
