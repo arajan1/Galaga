@@ -7,10 +7,6 @@ public class Player extends Objects{
 		super(img, a, b, c, d, angle);
 		lives = e;
 	}
-	public void move(){ //mvoes player
-		this.changeX(this.getVelocityX());
-		this.changeY(this.getVelocityY());
-	}
 	public int getLives(){
 		return lives;
 	}

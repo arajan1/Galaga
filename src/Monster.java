@@ -5,14 +5,14 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 public class Monster extends Objects {
-	int basex; //Base X location on grid
-	int basey; //Base Y location on Grid
+	int basex; // Base X location on grid
+	int basey; // Base Y location on Grid
 	int monsterindex;
 	int lives;
-	int attackvariable; //How often it attacks
+	int attackvariable; // How often it attacks
 	Random rand = new Random();
-	int pausefactor = 0; //buffers
-	boolean approachdone = false; 
+	int pausefactor = 0; // buffers
+	boolean approachdone = false;
 	boolean captureapproach = false;
 	boolean startcircle = false;
 	boolean rightside = false;
@@ -24,31 +24,32 @@ public class Monster extends Objects {
 	boolean attack = false;
 	boolean needtoreturn = false;
 	boolean startcapture = false;
-	boolean drawcapture = false;	
+	boolean drawcapture = false;
 
-	Monster(Image img, int a, int b, int c, int d, int e, int f, int g, double angle) {
+	Monster(Image img, int a, int b, int c, int d, int e, int f, int g,
+			double angle) {
 		super(img, a, b, c, d, angle);
 		basex = f;
 		basey = g;
 
-		monsterindex = e; //Determines type of monster
+		monsterindex = e; // Determines type of monster
 		if (e == 0) {
 			lives = 1;
 			width = 35;
 			height = 26;
-			attackvariable = 8000;
+			attackvariable = 6000;
 		}
-		if (e == 1) { 
+		if (e == 1) {
 			lives = 2;
 			width = 35;
 			height = 27;
-			attackvariable = 6000;
+			attackvariable = 4000;
 		}
 		if (e == 2) {
 			lives = 3;
 			width = 35;
 			height = 38;
-			attackvariable = 4000;
+			attackvariable = 2500;
 		}
 	}
 
@@ -71,22 +72,14 @@ public class Monster extends Objects {
 		basey = a;
 	}
 
-	public void incrementAngle() {
-		if (startcircle == true && startending==false) {
-			angle += (2 * Math.PI) / 30;
+	public void incrementAngle() {// Used to move angle when calculating circle
+		if (startcircle == true && startending == false) {
+			angle += (2 * Math.PI) / 20;
 		}
 	}
 
-	public boolean isCapturing() {
-		return iscapturing;
-	}
-
-	public void move() {
-		this.changeX(this.getVelocityX());
-		this.changeY(this.getVelocityY());
-	}
-
-	public void enter() { // Monsters movement upon entering screen
+	public void enter() { // Monsters movement upon entering screen Makes
+							// circles and ellipses
 		if (monsterindex <= 1 && endingover == false) {
 			if (approachdone == false) {
 				if (this.basex > 300) {
@@ -128,7 +121,7 @@ public class Monster extends Objects {
 				this.setX(this.getBaseX());
 				this.setY(this.getBaseY());
 				endingover = true;
-				angle=0;
+				angle = 0;
 			}
 		}
 		if (monsterindex == 2 && endingover == false) {
@@ -171,46 +164,57 @@ public class Monster extends Objects {
 				this.setX(this.getBaseX());
 				this.setY(this.getBaseY());
 				endingover = true;
-				angle=0;
+				angle = 0;
 			}
 		}
 	}
 
-	public void attack(int playerx, int playery, BulletList list) {
+	public void attack(int playerx, int playery, BulletList list) {// Used when
+																	// monster
+																	// attacks
 		if (endingover == true && attack == false) {
 			this.approach(playerx, playery);
-			Bullet temp = new Bullet(new ImageIcon("bullet.png").getImage(),this.getX() + this.getWidth() / 2 - 5,
-					this.getY(), 10, 23, 0);
+			Bullet temp = new Bullet(new ImageIcon("bullet.png").getImage(),
+					this.getX() + this.getWidth() / 2 - 5, this.getY(), 10, 23,
+					0);
 			if (this.getX() > playerx) {
 				temp.approach(playerx - 50, playery);
 				temp.setVelocityY(temp.getVelocityY() + 25);
 				temp.setVelocityX(temp.getVelocityX() - 5);
-				if(yvelocity!=0){
-					angle = Math.PI - Math.atan(((double)xvelocity)/((double)yvelocity));
-				if(temp.yvelocity!=0){
-					temp.angle = Math.PI - Math.atan(((double)temp.xvelocity)/((double)temp.yvelocity));
+				if (yvelocity != 0) {
+					angle = Math.PI
+							- Math.atan(((double) xvelocity)
+									/ ((double) yvelocity));
+					if (temp.yvelocity != 0) {
+						temp.angle = Math.PI
+								- Math.atan(((double) temp.xvelocity)
+										/ ((double) temp.yvelocity));
+					}
+					list.append(temp);
 				}
-				list.append(temp);
-			}
-			if (this.getX() < playerx) {
-				temp.approach(playerx + 50, playery);
-				temp.setVelocityY(temp.getVelocityY() + 5);
-				temp.setVelocityX(temp.getVelocityX() + 5);
-				if(yvelocity!=0){
-					angle = Math.PI - Math.atan(((double)xvelocity)/((double)yvelocity));
+				if (this.getX() < playerx) {
+					temp.approach(playerx + 50, playery);
+					temp.setVelocityY(temp.getVelocityY() + 5);
+					temp.setVelocityX(temp.getVelocityX() + 5);
+					if (yvelocity != 0) {
+						angle = Math.PI
+								- Math.atan(((double) xvelocity)
+										/ ((double) yvelocity));
 
+					}
+					if (temp.yvelocity != 0) {
+						temp.angle = Math.PI
+								- Math.atan(((double) temp.xvelocity)
+										/ ((double) temp.yvelocity));
+					}
+					list.append(temp);
 				}
-				if(temp.yvelocity!=0){
-					temp.angle = Math.PI - Math.atan(((double)temp.xvelocity)/((double)temp.yvelocity));
-				}
-				list.append(temp);
 			}
-			}
-		attack = true;
+			attack = true;
 		}
 	} // monster shooting bullets
 
-	public void moveBackandFowarth() {
+	public void moveBackandFowarth() {// Used when idling
 		if (endingover == true) {
 			if (rightside == false) {
 				this.changeX(2);
@@ -227,8 +231,8 @@ public class Monster extends Objects {
 		}
 	} // monster shifting side to side
 
-	public boolean returnToTop() {
-		angle=0;
+	public boolean returnToTop() {// Used after attack
+		angle = 0;
 		this.setX(this.getBaseX());
 		this.setVelocityY(15);
 		if ((this.getY() + 15 > this.getBaseY() && this.getY() - 15 < this
@@ -253,15 +257,16 @@ public class Monster extends Objects {
 		return false;
 	}
 
-	public boolean drawCapture(){
+	public boolean drawCapture() {// Tells GUI to draw Capture beam
 		return drawcapture;
 	}
-	
-	public boolean hasCapture(){
+
+	public boolean hasCapture() {// Decalres that a commander is capturing
+									// something
 		return hascapture;
 	}
-	
-	public void captureMonster(Player player) {
+
+	public void captureMonster(Player player) {// Runs code to capture player
 		if (endingover == true && hascapture == false) {
 			if (captureapproach == false) {
 				xvelocity = 0;
@@ -279,55 +284,65 @@ public class Monster extends Objects {
 				madeplace = true;
 			}
 			if (hascapture == false && madeplace == true) {
-				drawcapture=true;
+				drawcapture = true;
 				pausefactor++;
-				if (player.getX() >= 200 && player.getX() <= 400&&pausefactor>100) {
+				if (player.getX() >= 200 && player.getX() <= 400
+						&& pausefactor > 100) {
 					hascapture = true;
 					player.died();
-					y=801;
-					pausefactor=201;
+					y = 801;
+					pausefactor = 201;
 				}
-				if(pausefactor>200){
-					yvelocity=50;
-					madeplace=false;
-					drawcapture=false;
-					pausefactor=0;
+				if (pausefactor > 200) {
+					yvelocity = 50;
+					madeplace = false;
+					drawcapture = false;
+					pausefactor = 0;
 				}
 			}
 		}
 	}
 
-	public void function(LinkedList<Player> player, BulletList monster) {
-		move();
-		enter();
-		if (attack == false && startcapture==false) {
-			moveBackandFowarth();
-		}
-		if (rand.nextInt(attackvariable) < 10 && endingover == true) {
-			if(monsterindex==2&&rand.nextInt(3)<1&&player.size()!=2){
-				angle=0;
-				startcapture=true;
+	public void function(LinkedList<Player> player, BulletList monster) {// Combines
+																			// all
+																			// the
+																			// functions
+																			// of
+																			// the
+																			// monsters
+																			// together
+		if (player.get(0).getLives() > 0) {
+			move();
+			enter();
+			if (attack == false && startcapture == false) {
+				moveBackandFowarth();
 			}
-			else if(startcapture == false){
-				attack(player.get(0).getX(), player.get(0).getY(), monster);	
+			if (rand.nextInt(attackvariable) < 10 && endingover == true) {
+				if (monsterindex == 2 && rand.nextInt(3) < 1
+						&& player.size() != 2) {
+					angle = 0;
+					startcapture = true;
+				} else if (startcapture == false) {
+					attack(player.get(0).getX(), player.get(0).getY(), monster);
+				}
 			}
-		}
-		if(startcapture==true){
-			captureMonster(player.get(0));
-		}
-		if (y > 800) {
-			y = 0;
-			needtoreturn = true;
-			startcapture=false;
-			captureapproach=false;
-		}
-		if (needtoreturn == true) {
-			if (returnToTop()) {
-				xvelocity = 0;
-				yvelocity = 0;
-				needtoreturn = false;
+			if (startcapture == true) {
+				captureMonster(player.get(0));
 			}
+			if (y > 800) {
+				y = 0;
+				needtoreturn = true;
+				startcapture = false;
+				captureapproach = false;
+			}
+			if (needtoreturn == true) {
+				if (returnToTop()) {
+					xvelocity = 0;
+					yvelocity = 0;
+					needtoreturn = false;
+				}
+			}
+			incrementAngle();
 		}
-		incrementAngle();
 	}
 }
