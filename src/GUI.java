@@ -18,11 +18,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	LinkedList<Sprite> livedisplay = new LinkedList<Sprite>();
 	Image img;
 	Stage stage = new Stage();
-	int level = 4;
+	int level = 0;
 	GamePanel gp;
 	boolean runonce = false;
 	boolean hit = false;
-	boolean donereturning = true;
 	boolean done = false;
 	boolean doublefighter = false;
 	boolean godmode = false;
@@ -34,6 +33,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			282, 100, 0);
 	Monster test2 = new Monster(new ImageIcon("Commander.png").getImage(), 0,
 			0, 0, 0, 2, 500, 100, 0);
+	Monster test3 = new Monster(new ImageIcon("Commander.png").getImage(), 0,
+					0, 0, 0, 2, 500, 100, 0);
 
 	// Program KeyStrokes Here
 	public void keyPressed(KeyEvent e) {
@@ -121,7 +122,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 					600 - 30 * i, 0);
 			livedisplay.add(temp);
 		}
-		if (playerBullets.traverseListPlayer(monsters)) {
+		if (playerBullets.traverseListPlayer(monsters,gp.getBoard())) {
 			Player temp = new Player(
 					new ImageIcon("galagaship.png").getImage(), player.getX()
 							+ player.getWidth(), player.getY(), 50, 50, 1, 0);
@@ -140,14 +141,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				monsters.get(i).setY(monsters.get(i).getBaseY());
 			}
 		}
-		if (numoflives <= 0 && godmode == false) {
-			t.stop();
-			done = true;
-		}
-		if (level==4) {
-			//monsters = stage.makeMonsterList(level);
-			monsters.add(test2);
+		if (monsters.size()==0) {
+			monsters = stage.makeMonsterList(level);
 			level++;
+			player.addLive(level);
+			gp.getBoard().addLevel();
+
 		}
 		LinkedList<Sprite> sprites = new LinkedList<Sprite>();
 		sprites.addAll(players);
@@ -178,9 +177,16 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			monsterBullets.next();
 		}
 		sprites.addAll(livedisplay);
+		if (numoflives <= 0 && godmode == false) {
+			gp.gameOver();
+			done=true;
+		}
 		gp.setSprites(sprites);
 		gp.repaint();
 		repaint();
+		if(done==true){
+			t.stop();
+		}
 	}
 
 	public static void main(String[] args) {

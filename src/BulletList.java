@@ -108,7 +108,7 @@ public class BulletList {
 		}
 	}
 
-	public boolean traverseListPlayer(LinkedList<Monster> monsters) {
+	public boolean traverseListPlayer(LinkedList<Monster> monsters, ScoreBoard board) {
 		moveToStart();
 		for (int i = 0; i < length(); i++) {
 			if (getValue() != null) {
@@ -124,9 +124,13 @@ public class BulletList {
 						if (monsters.get(k).died()) {
 							if (monsters.get(k).hasCapture()) {
 								monsters.remove(k);
+								board.addKill(2);
 								return true;
 							}
-							monsters.remove(k);
+							else{
+								board.addKill(monsters.get(k).monsterindex);
+								monsters.remove(k);
+							}
 						}
 						remove();
 						break;

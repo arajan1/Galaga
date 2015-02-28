@@ -36,19 +36,19 @@ public class Monster extends Objects {
 			lives = 1;
 			width = 35;
 			height = 26;
-			attackvariable = 10000;
+			attackvariable = 8000;
 		}
 		if (e == 1) {
 			lives = 2;
 			width = 35;
 			height = 27;
-			attackvariable = 5000;
+			attackvariable = 6000;
 		}
 		if (e == 2) {
 			lives = 3;
 			width = 35;
 			height = 38;
-			attackvariable = 1000;
+			attackvariable = 4000;
 		}
 	}
 
@@ -205,7 +205,6 @@ public class Monster extends Objects {
 				}
 				list.append(temp);
 			}
-			System.out.println("X:"+xvelocity+" Y:" + yvelocity);
 			}
 		attack = true;
 		}
@@ -304,14 +303,13 @@ public class Monster extends Objects {
 		if (attack == false && startcapture==false) {
 			moveBackandFowarth();
 		}
-		if (rand.nextInt(attackvariable) < 10 && endingover == true&&isattacking==false) {
-			if(monsterindex==2&&rand.nextInt(20)<1){
+		if (rand.nextInt(attackvariable) < 10 && endingover == true) {
+			if(monsterindex==2&&rand.nextInt(5)<1){
 				angle=0;
 				startcapture=true;
 			}
-			else{
+			else if(startcapture == false){
 				attack(player.getX(), player.getY(), monster);	
-				isattacking = true;
 			}
 		}
 		if(startcapture==true){
@@ -328,7 +326,6 @@ public class Monster extends Objects {
 				xvelocity = 0;
 				yvelocity = 0;
 				needtoreturn = false;
-				isattacking = false;
 			}
 		}
 		incrementAngle();
