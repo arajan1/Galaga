@@ -17,7 +17,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	LinkedList<Sprite> livedisplay = new LinkedList<Sprite>();
 	BulletList monsterBullets = new BulletList(10000);
 	BulletList playerBullets = new BulletList(2); // 2 cap for player
-
+	//Monster test = new Monster(new ImageIcon("beeEnemy copy.png").getImage(),
+		//	-50, 0, 35, 27, 1, 282, 100, 0);
 	Image img;
 	Stage stage = new Stage(); // Structure to make levels
 	int level = 0; // current level
@@ -137,7 +138,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		monsterBullets.traverseListMonster(players); // Manages monster bullets
 		for (int i = 0; (i < numinplay || canfunction == true)
 				&& i < monsters.size(); i++) {
-			if (players.size()>0) {
+			if (players.size() > 0) {
 				monsters.get(i).function(players, monsterBullets); // Controls
 			} // monsters
 			if (monsters.get(i).collidesWith(player)) {
@@ -162,6 +163,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		if (monsters.size() == 0) { // Makes the stages and manages levels
 			monsters = stage.makeMonsterList(level);
 			level++;
+			//monsters.add(test);
 			canfunction = false;
 			gp.getBoard().addLevel();
 		}

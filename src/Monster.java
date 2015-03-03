@@ -185,7 +185,8 @@ public class Monster extends Objects {
 					angle = Math.PI
 							- Math.atan(((double) xvelocity)
 									/ ((double) yvelocity));
-					if (temp.yvelocity != 0) {
+				}
+				if (temp.yvelocity != 0) {
 						temp.angle = Math.PI
 								- Math.atan(((double) temp.xvelocity)
 										/ ((double) temp.yvelocity));
@@ -211,7 +212,6 @@ public class Monster extends Objects {
 				}
 			}
 			attack = true;
-		}
 	} // monster shooting bullets
 
 	public void moveBackandFowarth() {// Used when idling
