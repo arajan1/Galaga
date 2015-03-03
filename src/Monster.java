@@ -303,7 +303,7 @@ public class Monster extends Objects {
 		}
 	}
 
-	public void function(LinkedList<Player> player, BulletList monster) {// Combines
+	public void function(LinkedList<Player> player, BulletList monster, Boolean twoplayer) {// Combines
 																			// all
 																			// the
 																			// functions
@@ -319,7 +319,7 @@ public class Monster extends Objects {
 			}
 			if (rand.nextInt(attackvariable) < 10 && endingover == true) {
 				if (monsterindex == 2 && rand.nextInt(3) < 1
-						&& player.size() != 2) {
+						&& player.size() != 2&&twoplayer==false) {
 					angle = 0;
 					startcapture = true;
 				} else if (startcapture == false) {

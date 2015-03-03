@@ -11,17 +11,18 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			725, 50, 50, 3, 0); // Create starting character
 	int numoflives = 0;
 	int numinplay = 5;
+	boolean twoplayer = false;
 	// Create lists for sprites
 	LinkedList<Monster> monsters = new LinkedList<Monster>();
 	LinkedList<Player> players = new LinkedList<Player>();
 	LinkedList<Sprite> livedisplay = new LinkedList<Sprite>();
 	BulletList monsterBullets = new BulletList(10000);
 	BulletList playerBullets = new BulletList(2); // 2 cap for player
-	//Monster test = new Monster(new ImageIcon("beeEnemy copy.png").getImage(),
-		//	-50, 0, 35, 27, 1, 282, 100, 0);
+	// Monster test = new Monster(new ImageIcon("beeEnemy copy.png").getImage(),
+	// -50, 0, 35, 27, 1, 282, 100, 0);
 	Image img;
 	Stage stage = new Stage(); // Structure to make levels
-	int level = 0; // current level
+	int level = 4; // current level
 	GamePanel gp;
 	boolean done = false; // end game
 	boolean godmode = false; // hacks
@@ -32,6 +33,16 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_SPACE: // Press Space Bar Fires bullet
+			if (twoplayer == true) {
+				Bullet temp = new Bullet(
+						new ImageIcon("bullet.png").getImage(), players.get(0)
+								.getX() + players.get(0).getWidth() / 2 - 5,
+						players.get(0).getY(), 10, 23, 0);
+				temp.setVelocityY(-45);
+				playerBullets.append(temp);
+				canfire = false;
+			}
+			else{
 			for (int i = 0; i < players.size(); i++) {
 				Bullet temp = new Bullet(
 						new ImageIcon("bullet.png").getImage(), players.get(i)
@@ -41,15 +52,24 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				playerBullets.append(temp);
 			}
 			canfire = false;
+			}
 			break;
 		case KeyEvent.VK_D: // Move Right
-			for (int i = 0; i < players.size(); i++) {
-				players.get(i).setVelocityX(10);
+			if (twoplayer == true) {
+				players.get(0).setVelocityX(10);
+			} else {
+				for (int i = 0; i < players.size(); i++) {
+					players.get(i).setVelocityX(10);
+				}
 			}
 			break;
 		case KeyEvent.VK_A: // Move Left
-			for (int i = 0; i < players.size(); i++) {
-				players.get(i).setVelocityX(-10);
+			if (twoplayer == true) {
+				players.get(0).setVelocityX(-10);
+			} else {
+				for (int i = 0; i < players.size(); i++) {
+					players.get(i).setVelocityX(-10);
+				}
 			}
 			break;
 		case KeyEvent.VK_G: // Toggles god mode
@@ -60,6 +80,37 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			if (godmode == true) {
 				godmode = false;
 				break;
+			}
+		case KeyEvent.VK_W: // Toggles god mode
+			if (twoplayer == false) {
+				Player temp = new Player(
+						new ImageIcon("galagaship.png").getImage(), 275, 725,
+						50, 50, 3, 0);
+				players.add(temp);
+				twoplayer = true;
+			}
+			break;
+
+		case KeyEvent.VK_RIGHT:
+			if (twoplayer == true) {
+				players.get(1).setVelocityX(10);
+			}
+
+			break;
+		case KeyEvent.VK_LEFT:
+			if (twoplayer == true) {
+				players.get(1).setVelocityX(-10);
+			}
+			break;
+		
+		case KeyEvent.VK_UP:
+			if(twoplayer==true){
+				Bullet temp = new Bullet(
+						new ImageIcon("bullet.png").getImage(), players.get(1)
+								.getX() + players.get(1).getWidth() / 2 - 5,
+						players.get(1).getY(), 10, 23, 0);
+				temp.setVelocityY(-45);
+				playerBullets.append(temp);
 			}
 		}
 	}
@@ -73,8 +124,10 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		livedisplay.clear();
 		numoflives = 0;
-		if (players.size() == 2) { // Display Lives and creates bounds for
-									// player while double fighter
+		if (players.size() == 2 && twoplayer == false) { // Display Lives and
+															// creates bounds
+															// for
+			// player while double fighter
 			playerBullets.setCap(4);
 			if (players.get(0).getX() > players.get(1).getX()) {
 				if (players.get(1).getX() < 0) {
@@ -96,6 +149,22 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 					players.get(0).setX(500);
 				}
 			}
+		} else if (twoplayer == true && players.size() == 2) {
+			playerBullets.setCap(4);
+			if (players.get(1).getX() < 0) {
+				players.get(1).setX(0);
+			}
+			if (players.get(0).getX() > 600 - 50) {
+				players.get(0).setX(600 - 50);
+			}
+
+			if (players.get(0).getX() < 0) {
+				players.get(0).setX(0);
+			}
+			if (players.get(1).getX() > 600 - 50) {
+				players.get(1).setX(600 - 50);
+			}
+
 		} else {
 			playerBullets.setCap(2);
 			if (players.get(0).getX() < 0) {
@@ -109,6 +178,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			numoflives += players.get(i).getLives();
 			players.get(i).move();
 			if (players.get(i).getLives() <= 0 && godmode == false) {
+				if (twoplayer == true) {
+					twoplayer = false;
+				}
 				players.remove(i);
 			}
 		}
@@ -135,11 +207,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 							+ player.getWidth(), player.getY(), 50, 50, 1, 0);
 			players.add(temp);
 		}
-		monsterBullets.traverseListMonster(players); // Manages monster bullets
+		monsterBullets.traverseListMonster(players, twoplayer); // Manages monster bullets
 		for (int i = 0; (i < numinplay || canfunction == true)
 				&& i < monsters.size(); i++) {
 			if (players.size() > 0) {
-				monsters.get(i).function(players, monsterBullets); // Controls
+				monsters.get(i).function(players, monsterBullets, twoplayer); // Controls
 			} // monsters
 			if (monsters.get(i).collidesWith(player)) {
 				if (players.size() == 2) {
@@ -163,7 +235,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		if (monsters.size() == 0) { // Makes the stages and manages levels
 			monsters = stage.makeMonsterList(level);
 			level++;
-			//monsters.add(test);
+			// monsters.add(test);
 			canfunction = false;
 			gp.getBoard().addLevel();
 		}
@@ -246,6 +318,18 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			for (int i = 0; i < players.size(); i++) {
 				players.get(i).setVelocityX(0);
 			}
+			break;
+		case KeyEvent.VK_RIGHT:
+			if (twoplayer == true) {
+				players.get(1).setVelocityX(0);
+			}
+
+			break;
+		case KeyEvent.VK_LEFT:
+			if (twoplayer == true) {
+				players.get(1).setVelocityX(0);
+			}
+
 			break;
 		}
 	}

@@ -57,7 +57,7 @@ public class BulletList {
 		return (Bullet) curr.next().element();
 	}
 	//Function used for monster bullets
-	public void traverseListMonster(LinkedList<Player> players) {
+	public void traverseListMonster(LinkedList<Player> players, Boolean twoplayer) {
 		moveToStart();
 		for (int i = 0; i < length(); i++) {
 			if (getValue() != null) {
@@ -67,10 +67,14 @@ public class BulletList {
 			}
 			for (int k = 0; k < players.size(); k++) {
 				if (getValue().collidesWith(players.get(k))) {
-					if(players.size()==2){//Deals with two players
-						players.get(1).died();
+					if(players.size()==2 && twoplayer == true){//Deals with two players
+						players.get(k).died();
 						remove();
 						break;
+					}
+					else if(players.size() == 2){
+						players.get(1).died();
+						remove();
 					}
 					else{
 						players.get(k).died();
