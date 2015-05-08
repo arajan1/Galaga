@@ -22,7 +22,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	// -50, 0, 35, 27, 1, 282, 100, 0);
 	Image img;
 	Stage stage = new Stage(); // Structure to make levels
-	int level = 4; // current level
+	int level = 0; // current level
 	GamePanel gp;
 	boolean done = false; // end game
 	boolean godmode = false; // hacks
@@ -84,7 +84,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		case KeyEvent.VK_W: // Toggles god mode
 			if (twoplayer == false) {
 				Player temp = new Player(
-						new ImageIcon("galagaship.png").getImage(), 275, 725,
+						new ImageIcon("galagashipdouble.png").getImage(), 275, 725,
 						50, 50, 3, 0);
 				players.add(temp);
 				twoplayer = true;
