@@ -7,7 +7,7 @@ public class BulletList {
 	protected Link<Bullet> curr; 
 	int cnt;
 	int cap;
-
+//test
 	BulletList(int a) {//Constructer
 		curr = tail = head = new Link<Bullet>(null); // Create header
 		cnt = 0;
